@@ -18,12 +18,9 @@ function getContentFromPath(path: string) {
 
 export const snippet: Schema = {
   render: 'Snippet',
-  description: 'Import a code snippet from the local filesystem',
   attributes: {
     path: {
       type: String,
-      description:
-        'Path (relative to the docs folder) to the code snippet file',
     },
   },
   transform(node, config): RenderableTreeNode {
