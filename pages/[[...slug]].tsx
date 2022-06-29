@@ -1,7 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-import Head from 'next/head';
-import Image from 'next/image';
 import Markdoc from '@markdoc/markdoc';
 import NavTree from '../components/NavTree';
 import type { NextPage } from 'next';
