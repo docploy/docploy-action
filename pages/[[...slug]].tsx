@@ -11,6 +11,7 @@ import fs from 'fs';
 import glob from 'glob-promise';
 import path from 'path';
 import { type NavTreeType } from '../src/types';
+import capitalize from 'src/utils/capitalize';
 
 type Props = {
   content: string;
@@ -22,7 +23,8 @@ interface Params extends ParsedUrlQuery {
   slug: string[];
 }
 
-const baseDocsDir = path.join(process.cwd(), '..', 'docs');
+// TODO: Use the docs path defined by the GitHub action
+const baseDocsDir = path.join(process.cwd(), 'docs');
 
 function getSlugFromPath(relPath: string) {
   const slug = relPath.replace('.md', '').split('/').slice(1);
@@ -34,11 +36,6 @@ function getSlugFromPath(relPath: string) {
   }
 
   return slug;
-}
-
-// TODO: move into a utils folder
-function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function getTitleFromToken(str: string) {
@@ -108,12 +105,15 @@ function getPathFromSlug(slug: string[]) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
+  console.log('baseDocsDir', baseDocsDir);
 
   const paths = docPaths.map((docPath: string) => {
     const relPath = docPath.substring(baseDocsDir.length);
     const slug = getSlugFromPath(relPath);
     return { params: { slug } };
   });
+
+  console.log('paths', paths);
 
   return { paths, fallback: false };
 };
