@@ -10,9 +10,11 @@ import config from '../schema';
 import fs from 'fs';
 import glob from 'glob-promise';
 import path from 'path';
+import { type NavTree } from '../src/types';
 
 type Props = {
   content: string;
+  navData: NavTree;
 };
 
 interface Params extends ParsedUrlQuery {
@@ -61,7 +63,7 @@ async function getNavData() {
     const slug = getSlugFromPath(relPath);
 
     // Start at the root
-    let currentBranch = navTree;
+    let currentBranch: NavTree = navTree;
 
     slug.forEach((token, i) => {
       const match = currentBranch.children.find((node: any) => {
@@ -73,7 +75,7 @@ async function getNavData() {
       } else {
         // different behavior for leaf nodes
         const isLeaf = i === slug.length - 1;
-        const newNode = {
+        const newNode: NavTree = {
           path: '/' + slug.slice(0, i + 1).join('/'),
           token,
           name: getTitleFromToken(token),
