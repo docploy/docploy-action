@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import Markdoc from '@markdoc/markdoc';
-import NavTree from '../components/NavTree';
+import NavTree from 'src/components/NavTree';
 import type { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
@@ -10,7 +10,7 @@ import config from '../schema';
 import fs from 'fs';
 import glob from 'glob-promise';
 import path from 'path';
-import { type NavTree } from '../src/types';
+import { type NavTreeType } from '../src/types';
 
 type Props = {
   content: string;

@@ -1,4 +1,4 @@
-export type NavTree = {
+export type NavTreeType = {
   path: string;
   token: string;
   name: string;
