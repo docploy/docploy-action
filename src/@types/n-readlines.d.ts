@@ -1,1 +1,1 @@
-declare module 'language-detect';
+declare module 'n-readlines';
