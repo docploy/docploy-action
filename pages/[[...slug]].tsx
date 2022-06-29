@@ -14,7 +14,7 @@ import { type NavTreeType } from '../src/types';
 
 type Props = {
   content: string;
-  navData: NavTree;
+  navData: NavTreeType;
 };
 
 interface Params extends ParsedUrlQuery {
@@ -63,7 +63,7 @@ async function getNavData() {
     const slug = getSlugFromPath(relPath);
 
     // Start at the root
-    let currentBranch: NavTree = navTree;
+    let currentBranch: NavTreeType = navTree;
 
     slug.forEach((token, i) => {
       const match = currentBranch.children.find((node: any) => {
@@ -75,7 +75,7 @@ async function getNavData() {
       } else {
         // different behavior for leaf nodes
         const isLeaf = i === slug.length - 1;
-        const newNode: NavTree = {
+        const newNode: NavTreeType = {
           path: '/' + slug.slice(0, i + 1).join('/'),
           token,
           name: getTitleFromToken(token),
