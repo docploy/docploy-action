@@ -105,15 +105,12 @@ function getPathFromSlug(slug: string[]) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
-  console.log('baseDocsDir', baseDocsDir);
 
   const paths = docPaths.map((docPath: string) => {
     const relPath = docPath.substring(baseDocsDir.length);
     const slug = getSlugFromPath(relPath);
     return { params: { slug } };
   });
-
-  console.log('paths', paths);
 
   return { paths, fallback: false };
 };
