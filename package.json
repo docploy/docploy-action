@@ -29,7 +29,6 @@
     "glob-promise": "^4.2.2",
     "language-detect": "^1.1.0",
     "n-readlines": "^1.0.1",
-    "ncc": "^0.3.6",
     "typescript": "^4.7.4"
   }
 }
