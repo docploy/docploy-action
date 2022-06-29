@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 
 import axios from 'axios';
-import { buildHtml } from '../lib/markdown';
+import { buildHtml } from 'src/action/markdown';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import fse from 'fs-extra';
