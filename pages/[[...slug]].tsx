@@ -5,7 +5,7 @@ import NavTree from 'src/components/NavTree';
 import type { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
-import components from '../components';
+import components from 'src/components';
 import config from '../schema';
 import fs from 'fs';
 import glob from 'glob-promise';
