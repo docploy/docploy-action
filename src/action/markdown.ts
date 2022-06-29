@@ -4,7 +4,7 @@ import fse from 'fs-extra';
 import glob from 'glob-promise';
 import path from 'path';
 
-function transformMarkdownToHtml(markdown) {
+function transformMarkdownToHtml(markdown: string) {
   const ast = Markdoc.parse(markdown);
   const content = Markdoc.transform(ast);
   const html = Markdoc.renderers.html(content);
@@ -16,7 +16,7 @@ function transformMarkdownToHtml(markdown) {
  * @param {string} src
  * @param {string} dest
  */
-export async function buildHtml(src, dest) {
+export async function buildHtml(src: string, dest: string) {
   const files = await glob(path.join(src, '**/*.md'));
 
   for (const file of files) {
