@@ -6,7 +6,7 @@ import type { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 import components from 'src/components';
-import config from '../schema';
+import config from 'src/schema';
 import fs from 'fs';
 import glob from 'glob-promise';
 import path from 'path';
