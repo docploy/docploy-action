@@ -1,0 +1,17 @@
+name: 'Publish docs to GitHub Pages'
+description: 'Action that publishes docs to the ghpages branch'
+inputs:
+  token:
+    description: 'The GITHUB_TOKEN secret'
+  username:
+    description: 'Username for doc generation commits'
+  email:
+    description: 'Email for doc generation commits'
+  timeout:
+    description: 'Timeout for waiting until docs are generated, in seconds (default: 60)'
+  pagesBranch:
+    description: 'The branch set up to serve Github Pages (default: gh-pages)'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
