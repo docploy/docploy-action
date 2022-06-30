@@ -31,19 +31,23 @@ const { CI } = process.env;
     repo: { owner, repo },
   } = context;
 
+  // TODO: Add support for non-GitHub Pages URLs
   const docsRootUrl = `https://${owner}.github.io/${repo}`;
 
   // generate all of the markdown docs to static html files
-  const mdPath = path.resolve(__dirname, '..', 'docs');
-  const writePath = path.resolve(__dirname, '..', 'static', 'docs');
+  // const mdPath = path.resolve(__dirname, '..', 'docs');
+  // const writePath = path.resolve(__dirname, '..', 'static', 'docs');
+  // path to the built Next.js assets (html, css, etc)
+  const builtAssetsPath = path.join(process.cwd(), 'out');
 
-  try {
-    await fse.mkdirp(writePath);
-  } catch (e) {
-    console.error(e);
-  }
+  // try {
+  //   await fse.mkdirp(writePath);
+  // } catch (e) {
+  //   console.error(e);
+  // }
 
-  await buildHtml(mdPath, writePath);
+  // await buildHtml(mdPath, writePath);
+  execSync('yarn run build:next');
 
   const shortSha = execSync('git rev-parse --short HEAD').toString().trim();
   const sourceDir = path.join(__dirname, '..', 'static', 'docs');
@@ -72,6 +76,8 @@ const { CI } = process.env;
     execSync(`git config --global user.email "${email}"`);
     execSync(`git config --global user.name "${username}"`);
   }
+
+  process.exit(1);
 
   // git fetch
   execSync('git fetch');
