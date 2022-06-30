@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:action": "yarn run clean && yarn run ncc build src/action/index.ts",
+    "build:action": "yarn run clean:action && yarn run ncc build src/action/index.ts",
     "clean:action": "rm -rf dist/",
     "start": "next start",
     "lint": "next lint"
