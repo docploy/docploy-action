@@ -28651,7 +28651,7 @@ var CI = process.env.CI;
                     // git fetch
                     (0,external_child_process_namespaceObject.execSync)('git fetch');
                     // git switch
-                    (0,external_child_process_namespaceObject.execSync)("git switch -f ".concat(pagesBranch));
+                    (0,external_child_process_namespaceObject.execSync)("git switch -c ".concat(pagesBranch));
                     (0,external_child_process_namespaceObject.execSync)('git clean -f -d');
                     newDir = external_path_default().join('.', shortSha);
                     _b.label = 16;

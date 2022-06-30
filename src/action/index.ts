@@ -81,7 +81,7 @@ const { CI } = process.env;
   execSync('git fetch');
 
   // git switch
-  execSync(`git switch -f ${pagesBranch}`);
+  execSync(`git switch -c ${pagesBranch}`);
 
   execSync('git clean -f -d');
 
