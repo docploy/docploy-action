@@ -1,6 +1,8 @@
+.DS_Store
 .next/
 .swc/
 
 yarn-error.log
 
 node_modules/
+out/
