@@ -6,6 +6,7 @@
     "build:next": "yarn run clean:next && yarn run next build && yarn run next export",
     "clean:action": "rm -rf dist/",
     "clean:next": "rm -rf out/",
+    "run:action": "yarn run build:action && node dist/index.js",
     "start": "next start",
     "lint": "next lint"
   },
