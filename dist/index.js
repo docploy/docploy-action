@@ -28668,7 +28668,7 @@ var CI = process.env.CI;
                 case 19:
                     (0,external_child_process_namespaceObject.execSync)('git add .');
                     (0,external_child_process_namespaceObject.execSync)("git commit -m ".concat(shortSha));
-                    (0,external_child_process_namespaceObject.execSync)('git push');
+                    (0,external_child_process_namespaceObject.execSync)("git push --set-upstream origin ".concat(pagesBranch));
                     startTime = Date.now();
                     endTime = startTime + timeout * 1000;
                     docsUrl = docsRootUrl + '/' + shortSha;
