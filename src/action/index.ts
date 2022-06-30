@@ -25,9 +25,11 @@ const { CI } = process.env;
   const pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
 
   const context = github.context;
+  console.log('github workspace', context);
   const {
     repo: { owner, repo },
   } = context;
+  process.exit(1);
 
   const docsRootUrl = `https://${owner}.github.io/${repo}`;
 
