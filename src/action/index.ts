@@ -97,7 +97,7 @@ const { CI } = process.env;
 
   execSync(`git commit -m ${shortSha}`);
 
-  execSync('git push');
+  execSync(`git push --set-upstream origin ${pagesBranch}`);
 
   const startTime = Date.now();
   const endTime = startTime + timeout * 1000;
