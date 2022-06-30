@@ -1,4 +1,4 @@
-/******/ (() => { // webpackBootstrap
+require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 7351:
@@ -28653,6 +28653,7 @@ var CI = process.env.CI;
                     // git switch
                     (0,external_child_process_namespaceObject.execSync)("git switch -c ".concat(pagesBranch));
                     (0,external_child_process_namespaceObject.execSync)('git clean -f -d');
+                    (0,external_child_process_namespaceObject.execSync)("git rebase origin ".concat(pagesBranch));
                     newDir = external_path_default().join('.', shortSha);
                     _b.label = 16;
                 case 16:
@@ -28711,3 +28712,4 @@ var CI = process.env.CI;
 module.exports = __webpack_exports__;
 /******/ })()
 ;
+//# sourceMappingURL=index.js.map
