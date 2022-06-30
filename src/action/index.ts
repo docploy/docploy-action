@@ -12,7 +12,7 @@ import tempDir from 'temp-dir';
 const DEFAULTS = {
   USERNAME: 'docs-bot',
   EMAIL: 'test@test.com',
-  TIMEOUT: 60,
+  TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
   PAGES_BRANCH: 'gh-pages',
   WORKSPACE: '',
 };
@@ -25,10 +25,6 @@ const { CI } = process.env;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
   const workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
-
-  console.log('here is the workspace', workspace);
-  console.log('print out current dir');
-  console.log(execSync('ls -la').toString().trim());
 
   const context = github.context;
   const {
@@ -112,8 +108,8 @@ const { CI } = process.env;
   try {
     execSync(`git commit -m "${shortSha}-${time}"`);
   } catch (e: any) {
-    console.error('There was an error creating a new commit', e);
-    console.error(e.stderr.toString('utf-8'));
+    const stdErrMsg = e.stderr.toString('utf-8');
+    console.error('There was an error creating a new commit:', stdErrMsg);
   }
 
   execSync(`git push --set-upstream origin ${pagesBranch}`);
