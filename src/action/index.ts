@@ -27,6 +27,8 @@ const { CI } = process.env;
   const workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
 
   console.log('here is the workspace', workspace);
+  console.log('print out current dir');
+  console.log(execSync('ls -la').toString().trim());
 
   const context = github.context;
   console.log('github workspace', context);

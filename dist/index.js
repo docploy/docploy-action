@@ -28588,6 +28588,8 @@ var CI = process.env.CI;
                     pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
                     workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
                     console.log('here is the workspace', workspace);
+                    console.log('print out current dir');
+                    console.log((0,external_child_process_namespaceObject.execSync)('ls -la').toString().trim());
                     context = github.context;
                     console.log('github workspace', context);
                     _a = context.repo, owner = _a.owner, repo = _a.repo;
