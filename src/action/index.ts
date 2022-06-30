@@ -89,13 +89,22 @@ const { CI } = process.env;
 
   // move files from temp directory to the root
   const newDir = path.join('.', shortSha);
+
+  // remove the existing directory if it exists
+  try {
+    await fs.promises.rmdir(newDir, { recursive: true });
+  } catch (e) {
+    console.error('There was an error removing the directory', e);
+  }
+
   try {
     await fse.move(tempShaDir, newDir);
   } catch (e) {
-    console.error(e);
+    console.error(
+      'There was an error moving the temporary directory into the new directory',
+      e
+    );
   }
-
-  process.exit(1);
 
   execSync('git add .');
 

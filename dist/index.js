@@ -28577,7 +28577,7 @@ var DEFAULTS = {
 var CI = process.env.CI;
 (function () {
     return action_awaiter(this, void 0, void 0, function () {
-        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, mdPath, writePath, e_1, shortSha, sourceDir, tempShaDir, e_2, e_3, e_4, newDir, e_5, time, startTime, endTime, docsUrl, timer;
+        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, mdPath, writePath, e_1, shortSha, sourceDir, tempShaDir, e_2, e_3, e_4, newDir, e_5, e_6, time, startTime, endTime, docsUrl, timer;
         var _this = this;
         return action_generator(this, function (_b) {
             switch (_b.label) {
@@ -28658,16 +28658,25 @@ var CI = process.env.CI;
                     _b.label = 16;
                 case 16:
                     _b.trys.push([16, 18, , 19]);
-                    return [4 /*yield*/, lib_default().move(tempShaDir, newDir)];
+                    return [4 /*yield*/, external_fs_default().promises.rmdir(newDir, { recursive: true })];
                 case 17:
                     _b.sent();
                     return [3 /*break*/, 19];
                 case 18:
                     e_5 = _b.sent();
-                    console.error(e_5);
+                    console.error('There was an error removing the directory', e_5);
                     return [3 /*break*/, 19];
                 case 19:
-                    process.exit(1);
+                    _b.trys.push([19, 21, , 22]);
+                    return [4 /*yield*/, lib_default().move(tempShaDir, newDir)];
+                case 20:
+                    _b.sent();
+                    return [3 /*break*/, 22];
+                case 21:
+                    e_6 = _b.sent();
+                    console.error('There was an error moving the temporary directory into the new directory', e_6);
+                    return [3 /*break*/, 22];
+                case 22:
                     (0,external_child_process_namespaceObject.execSync)('git add .');
                     time = Date.now();
                     (0,external_child_process_namespaceObject.execSync)("git commit -m ".concat(shortSha, "-").concat(time));
@@ -28676,7 +28685,7 @@ var CI = process.env.CI;
                     endTime = startTime + timeout * 1000;
                     docsUrl = docsRootUrl + '/' + shortSha;
                     timer = setInterval(function () { return action_awaiter(_this, void 0, void 0, function () {
-                        var res, e_6;
+                        var res, e_7;
                         return action_generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0:
@@ -28686,7 +28695,7 @@ var CI = process.env.CI;
                                     res = _a.sent();
                                     return [3 /*break*/, 3];
                                 case 2:
-                                    e_6 = _a.sent();
+                                    e_7 = _a.sent();
                                     console.log("Waiting for docs(".concat(docsUrl, ") to be deployed..."));
                                     return [3 /*break*/, 3];
                                 case 3:
