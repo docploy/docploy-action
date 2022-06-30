@@ -28577,7 +28577,7 @@ var DEFAULTS = {
 var CI = process.env.CI;
 (function () {
     return action_awaiter(this, void 0, void 0, function () {
-        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, mdPath, writePath, e_1, shortSha, sourceDir, tempShaDir, e_2, e_3, e_4, newDir, e_5, startTime, endTime, docsUrl, timer;
+        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, mdPath, writePath, e_1, shortSha, sourceDir, tempShaDir, e_2, e_3, e_4, newDir, e_5, time, startTime, endTime, docsUrl, timer;
         var _this = this;
         return action_generator(this, function (_b) {
             switch (_b.label) {
@@ -28668,7 +28668,8 @@ var CI = process.env.CI;
                     return [3 /*break*/, 19];
                 case 19:
                     (0,external_child_process_namespaceObject.execSync)('git add .');
-                    (0,external_child_process_namespaceObject.execSync)("git commit -m ".concat(shortSha));
+                    time = Date.now();
+                    (0,external_child_process_namespaceObject.execSync)("git commit -m ".concat(shortSha, "-").concat(time));
                     (0,external_child_process_namespaceObject.execSync)("git push --set-upstream origin ".concat(pagesBranch));
                     startTime = Date.now();
                     endTime = startTime + timeout * 1000;

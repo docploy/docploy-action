@@ -97,7 +97,8 @@ const { CI } = process.env;
 
   execSync('git add .');
 
-  execSync(`git commit -m ${shortSha}`);
+  const time = Date.now();
+  execSync(`git commit -m ${shortSha}-${time}`);
 
   execSync(`git push --set-upstream origin ${pagesBranch}`);
 
