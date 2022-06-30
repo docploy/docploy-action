@@ -28572,11 +28572,12 @@ var DEFAULTS = {
     EMAIL: 'test@test.com',
     TIMEOUT: 60,
     PAGES_BRANCH: 'gh-pages',
+    WORKSPACE: '',
 };
 var CI = process.env.CI;
 (function () {
     return action_awaiter(this, void 0, void 0, function () {
-        var username, email, timeout, pagesBranch, context, _a, owner, repo, docsRootUrl, mdPath, writePath, e_1, shortSha, sourceDir, tempShaDir, e_2, e_3, e_4, newDir, e_5, startTime, endTime, docsUrl, timer;
+        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, mdPath, writePath, e_1, shortSha, sourceDir, tempShaDir, e_2, e_3, e_4, newDir, e_5, startTime, endTime, docsUrl, timer;
         var _this = this;
         return action_generator(this, function (_b) {
             switch (_b.label) {
@@ -28585,6 +28586,8 @@ var CI = process.env.CI;
                     email = core.getInput('email') || DEFAULTS.EMAIL;
                     timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
                     pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
+                    workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
+                    console.log('here is the workspace', workspace);
                     context = github.context;
                     console.log('github workspace', context);
                     _a = context.repo, owner = _a.owner, repo = _a.repo;
