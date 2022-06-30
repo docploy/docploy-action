@@ -18522,9 +18522,12 @@ var CI = process.env.CI;
                         },
                     };
                     /* end debugging */
-                    return [4 /*yield*/, _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec('ls -la', options)];
+                    return [4 /*yield*/, _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec('ls', ['-la'], options)];
                 case 1:
                     /* end debugging */
+                    _b.sent();
+                    return [4 /*yield*/, _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec('/bin/bash -c "ls -la"', options)];
+                case 2:
                     _b.sent();
                     process.exit(1);
                     console.log('current dir contents');
@@ -18543,38 +18546,38 @@ var CI = process.env.CI;
                     shortSha = (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)('git rev-parse --short HEAD').toString().trim();
                     sourceDir = path__WEBPACK_IMPORTED_MODULE_6___default().join(__dirname, '..', 'static', 'docs');
                     tempShaDir = path__WEBPACK_IMPORTED_MODULE_6___default().join((temp_dir__WEBPACK_IMPORTED_MODULE_7___default()), shortSha);
-                    _b.label = 2;
-                case 2:
-                    _b.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, fs_extra__WEBPACK_IMPORTED_MODULE_8___default().mkdirp(tempShaDir)];
+                    _b.label = 3;
                 case 3:
-                    _b.sent();
-                    return [3 /*break*/, 5];
+                    _b.trys.push([3, 5, , 6]);
+                    return [4 /*yield*/, fs_extra__WEBPACK_IMPORTED_MODULE_8___default().mkdirp(tempShaDir)];
                 case 4:
+                    _b.sent();
+                    return [3 /*break*/, 6];
+                case 5:
                     e_1 = _b.sent();
                     console.error(e_1);
-                    return [3 /*break*/, 5];
-                case 5:
-                    _b.trys.push([5, 7, , 8]);
-                    return [4 /*yield*/, fs_extra__WEBPACK_IMPORTED_MODULE_8___default().copy(sourceDir, tempShaDir)];
+                    return [3 /*break*/, 6];
                 case 6:
-                    _b.sent();
-                    return [3 /*break*/, 8];
+                    _b.trys.push([6, 8, , 9]);
+                    return [4 /*yield*/, fs_extra__WEBPACK_IMPORTED_MODULE_8___default().copy(sourceDir, tempShaDir)];
                 case 7:
+                    _b.sent();
+                    return [3 /*break*/, 9];
+                case 8:
                     e_2 = _b.sent();
                     console.error(e_2);
-                    return [3 /*break*/, 8];
-                case 8:
-                    _b.trys.push([8, 10, , 11]);
-                    return [4 /*yield*/, fs__WEBPACK_IMPORTED_MODULE_5___default().promises.readdir(tempShaDir)];
+                    return [3 /*break*/, 9];
                 case 9:
-                    _b.sent();
-                    return [3 /*break*/, 11];
+                    _b.trys.push([9, 11, , 12]);
+                    return [4 /*yield*/, fs__WEBPACK_IMPORTED_MODULE_5___default().promises.readdir(tempShaDir)];
                 case 10:
+                    _b.sent();
+                    return [3 /*break*/, 12];
+                case 11:
                     e_3 = _b.sent();
                     console.error(e_3);
-                    return [3 /*break*/, 11];
-                case 11:
+                    return [3 /*break*/, 12];
+                case 12:
                     if (CI) {
                         (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git config --global user.email \"".concat(email, "\""));
                         (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git config --global user.name \"".concat(username, "\""));
@@ -18587,28 +18590,28 @@ var CI = process.env.CI;
                     (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)('git clean -f -d');
                     (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git rebase origin/".concat(pagesBranch));
                     newDir = path__WEBPACK_IMPORTED_MODULE_6___default().join('.', shortSha);
-                    _b.label = 12;
-                case 12:
-                    _b.trys.push([12, 14, , 15]);
-                    return [4 /*yield*/, fs__WEBPACK_IMPORTED_MODULE_5___default().promises.rm(newDir, { recursive: true })];
+                    _b.label = 13;
                 case 13:
-                    _b.sent();
-                    return [3 /*break*/, 15];
+                    _b.trys.push([13, 15, , 16]);
+                    return [4 /*yield*/, fs__WEBPACK_IMPORTED_MODULE_5___default().promises.rm(newDir, { recursive: true })];
                 case 14:
+                    _b.sent();
+                    return [3 /*break*/, 16];
+                case 15:
                     e_4 = _b.sent();
                     console.error('There was an error removing the directory', e_4);
-                    return [3 /*break*/, 15];
-                case 15:
-                    _b.trys.push([15, 17, , 18]);
-                    return [4 /*yield*/, fs_extra__WEBPACK_IMPORTED_MODULE_8___default().move(tempShaDir, newDir)];
+                    return [3 /*break*/, 16];
                 case 16:
-                    _b.sent();
-                    return [3 /*break*/, 18];
+                    _b.trys.push([16, 18, , 19]);
+                    return [4 /*yield*/, fs_extra__WEBPACK_IMPORTED_MODULE_8___default().move(tempShaDir, newDir)];
                 case 17:
+                    _b.sent();
+                    return [3 /*break*/, 19];
+                case 18:
                     e_5 = _b.sent();
                     console.error('There was an error moving the temporary directory into the new directory', e_5);
-                    return [3 /*break*/, 18];
-                case 18:
+                    return [3 /*break*/, 19];
+                case 19:
                     (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)('git add .');
                     time = Date.now();
                     try {

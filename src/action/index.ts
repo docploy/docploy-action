@@ -57,6 +57,7 @@ const { CI } = process.env;
   /* end debugging */
 
   await exec.exec('ls', ['-la'], options);
+  await exec.exec('/bin/bash -c "ls -la"', options);
   process.exit(1);
 
   console.log('current dir contents');
