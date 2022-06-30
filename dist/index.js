@@ -28679,7 +28679,13 @@ var CI = process.env.CI;
                 case 22:
                     (0,external_child_process_namespaceObject.execSync)('git add .');
                     time = Date.now();
-                    (0,external_child_process_namespaceObject.execSync)("git commit -m \"".concat(shortSha, "-").concat(time, "\""));
+                    try {
+                        (0,external_child_process_namespaceObject.execSync)("git commit -m \"".concat(shortSha, "-").concat(time, "\""));
+                    }
+                    catch (e) {
+                        console.error('There was an error creating a new commit', e);
+                        console.error(e.stderr.toString('utf-8'));
+                    }
                     (0,external_child_process_namespaceObject.execSync)("git push --set-upstream origin ".concat(pagesBranch));
                     startTime = Date.now();
                     endTime = startTime + timeout * 1000;

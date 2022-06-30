@@ -109,7 +109,12 @@ const { CI } = process.env;
   execSync('git add .');
 
   const time = Date.now();
-  execSync(`git commit -m "${shortSha}-${time}"`);
+  try {
+    execSync(`git commit -m "${shortSha}-${time}"`);
+  } catch (e: any) {
+    console.error('There was an error creating a new commit', e);
+    console.error(e.stderr.toString('utf-8'));
+  }
 
   execSync(`git push --set-upstream origin ${pagesBranch}`);
 
