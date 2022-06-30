@@ -85,7 +85,7 @@ const { CI } = process.env;
 
   execSync('git clean -f -d');
 
-  execSync(`git rebase origin ${pagesBranch}`);
+  execSync(`git rebase origin/${pagesBranch}`);
 
   // move files from temp directory to the root
   const newDir = path.join('.', shortSha);
