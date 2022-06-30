@@ -17225,8 +17225,10 @@ var CI = process.env.CI;
                     docsRootUrl = "https://".concat(owner, ".github.io/").concat(repo);
                     builtAssetsPath = __nccwpck_require__.ab + "out";
                     console.log('current dir contents');
-                    (0,external_child_process_namespaceObject.execSync)('ls -la');
+                    (0,external_child_process_namespaceObject.execSync)('ls -la').toString();
                     workspaceDir = external_path_default().join(process.env.GITHUB_WORKSPACE || '');
+                    console.log('workspaceDir', workspaceDir);
+                    (0,external_child_process_namespaceObject.execSync)("ls -la ".concat(workspaceDir)).toString();
                     // try {
                     //   await fse.mkdirp(writePath);
                     // } catch (e) {

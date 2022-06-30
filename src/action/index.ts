@@ -41,9 +41,11 @@ const { CI } = process.env;
   const builtAssetsPath = path.join(process.cwd(), 'out');
 
   console.log('current dir contents');
-  execSync('ls -la');
+  execSync('ls -la').toString();
 
   const workspaceDir = path.join(process.env.GITHUB_WORKSPACE || '');
+  console.log('workspaceDir', workspaceDir);
+  execSync(`ls -la ${workspaceDir}`).toString();
 
   // try {
   //   await fse.mkdirp(writePath);
