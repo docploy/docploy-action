@@ -14,6 +14,7 @@ const DEFAULTS = {
   EMAIL: 'test@test.com',
   TIMEOUT: 60,
   PAGES_BRANCH: 'gh-pages',
+  WORKSPACE: '',
 };
 
 const { CI } = process.env;
@@ -23,6 +24,9 @@ const { CI } = process.env;
   const email = core.getInput('email') || DEFAULTS.EMAIL;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
+  const workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
+
+  console.log('here is the workspace', workspace);
 
   const context = github.context;
   console.log('github workspace', context);
