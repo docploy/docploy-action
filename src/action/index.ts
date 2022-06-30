@@ -92,7 +92,7 @@ const { CI } = process.env;
 
   // remove the existing directory if it exists
   try {
-    await fs.promises.rmdir(newDir, { recursive: true });
+    await fs.promises.rm(newDir, { recursive: true });
   } catch (e) {
     console.error('There was an error removing the directory', e);
   }
@@ -109,7 +109,7 @@ const { CI } = process.env;
   execSync('git add .');
 
   const time = Date.now();
-  execSync(`git commit -m ${shortSha}-${time}`);
+  execSync(`git commit -m "${shortSha}-${time}"`);
 
   execSync(`git push --set-upstream origin ${pagesBranch}`);
 

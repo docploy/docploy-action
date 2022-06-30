@@ -28658,7 +28658,7 @@ var CI = process.env.CI;
                     _b.label = 16;
                 case 16:
                     _b.trys.push([16, 18, , 19]);
-                    return [4 /*yield*/, external_fs_default().promises.rmdir(newDir, { recursive: true })];
+                    return [4 /*yield*/, external_fs_default().promises.rm(newDir, { recursive: true })];
                 case 17:
                     _b.sent();
                     return [3 /*break*/, 19];
@@ -28679,7 +28679,7 @@ var CI = process.env.CI;
                 case 22:
                     (0,external_child_process_namespaceObject.execSync)('git add .');
                     time = Date.now();
-                    (0,external_child_process_namespaceObject.execSync)("git commit -m ".concat(shortSha, "-").concat(time));
+                    (0,external_child_process_namespaceObject.execSync)("git commit -m \"".concat(shortSha, "-").concat(time, "\""));
                     (0,external_child_process_namespaceObject.execSync)("git push --set-upstream origin ".concat(pagesBranch));
                     startTime = Date.now();
                     endTime = startTime + timeout * 1000;
