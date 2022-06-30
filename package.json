@@ -3,7 +3,9 @@
     "dev": "next dev",
     "build": "next build",
     "build:action": "yarn run clean:action && yarn run ncc build src/action/index.ts",
+    "build:next": "yarn run clean:next && yarn run next build && yarn run next export",
     "clean:action": "rm -rf dist/",
+    "clean:next": "rm -rf out/",
     "start": "next start",
     "lint": "next lint"
   },
