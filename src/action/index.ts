@@ -31,11 +31,9 @@ const { CI } = process.env;
   console.log(execSync('ls -la').toString().trim());
 
   const context = github.context;
-  console.log('github workspace', context);
   const {
     repo: { owner, repo },
   } = context;
-  process.exit(1);
 
   const docsRootUrl = `https://${owner}.github.io/${repo}`;
 
