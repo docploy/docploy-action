@@ -40,6 +40,11 @@ const { CI } = process.env;
   // path to the built Next.js assets (html, css, etc)
   const builtAssetsPath = path.join(process.cwd(), 'out');
 
+  console.log('current dir contents');
+  execSync('ls -la');
+
+  const workspaceDir = path.join(process.env.GITHUB_WORKSPACE || '');
+
   // try {
   //   await fse.mkdirp(writePath);
   // } catch (e) {

@@ -1,4 +1,4 @@
-/******/ (() => { // webpackBootstrap
+require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 7351:
@@ -17210,7 +17210,7 @@ var DEFAULTS = {
 var CI = process.env.CI;
 (function () {
     return __awaiter(this, void 0, void 0, function () {
-        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, builtAssetsPath, shortSha, sourceDir, tempShaDir, e_1, e_2, e_3, newDir, e_4, e_5, time, stdErrMsg, startTime, endTime, docsUrl, timer;
+        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, builtAssetsPath, workspaceDir, shortSha, sourceDir, tempShaDir, e_1, e_2, e_3, newDir, e_4, e_5, time, stdErrMsg, startTime, endTime, docsUrl, timer;
         var _this = this;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -17223,7 +17223,10 @@ var CI = process.env.CI;
                     context = github.context;
                     _a = context.repo, owner = _a.owner, repo = _a.repo;
                     docsRootUrl = "https://".concat(owner, ".github.io/").concat(repo);
-                    builtAssetsPath = external_path_default().join(process.cwd(), 'out');
+                    builtAssetsPath = __nccwpck_require__.ab + "out";
+                    console.log('current dir contents');
+                    (0,external_child_process_namespaceObject.execSync)('ls -la');
+                    workspaceDir = external_path_default().join(process.env.GITHUB_WORKSPACE || '');
                     // try {
                     //   await fse.mkdirp(writePath);
                     // } catch (e) {
@@ -17352,3 +17355,4 @@ var CI = process.env.CI;
 module.exports = __webpack_exports__;
 /******/ })()
 ;
+//# sourceMappingURL=index.js.map
