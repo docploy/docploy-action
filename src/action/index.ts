@@ -95,6 +95,8 @@ const { CI } = process.env;
     console.error(e);
   }
 
+  process.exit(1);
+
   execSync('git add .');
 
   const time = Date.now();

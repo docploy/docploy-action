@@ -28667,6 +28667,7 @@ var CI = process.env.CI;
                     console.error(e_5);
                     return [3 /*break*/, 19];
                 case 19:
+                    process.exit(1);
                     (0,external_child_process_namespaceObject.execSync)('git add .');
                     time = Date.now();
                     (0,external_child_process_namespaceObject.execSync)("git commit -m ".concat(shortSha, "-").concat(time));
