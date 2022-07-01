@@ -27,7 +27,5 @@ runs:
       shell: bash
     - run: ls -la "${{ github.action_path }}"
       shell: bash
-    - run: echo ${{ GITHUB_ACTION_PATH }}
-      shell: bash
-    - run: node dist/index.js
-      shell: bash
+    # - run: node dist/index.js
+    #   shell: bash
