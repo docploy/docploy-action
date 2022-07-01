@@ -17223,12 +17223,12 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     // } catch (e) {
                     //   console.error(e);
                     // }
+                    // change working directory to main repo
+                    (0,external_child_process_namespaceObject.execSync)("cd ".concat(GITHUB_WORKSPACE));
                     if (CI) {
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.email \"".concat(email, "\""));
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.name \"".concat(username, "\""));
                     }
-                    // change working directory to main repo
-                    (0,external_child_process_namespaceObject.execSync)("cd ".concat(GITHUB_WORKSPACE));
                     // git fetch
                     (0,external_child_process_namespaceObject.execSync)('git fetch');
                     // git switch

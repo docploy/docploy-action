@@ -95,13 +95,13 @@ const {
   //   console.error(e);
   // }
 
+  // change working directory to main repo
+  execSync(`cd ${GITHUB_WORKSPACE}`);
+
   if (CI) {
     execSync(`git config --global user.email "${email}"`);
     execSync(`git config --global user.name "${username}"`);
   }
-
-  // change working directory to main repo
-  execSync(`cd ${GITHUB_WORKSPACE}`);
 
   // git fetch
   execSync('git fetch');
