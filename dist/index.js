@@ -17207,7 +17207,7 @@ var DEFAULTS = {
     PAGES_BRANCH: 'gh-pages',
     WORKSPACE: '',
 };
-var CI = process.env.CI;
+var _a = process.env, CI = _a.CI, GITHUB_ACTION_PATH = _a.GITHUB_ACTION_PATH;
 (function () {
     return __awaiter(this, void 0, void 0, function () {
         var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, builtAssetsPath, workspaceDir, shortSha, sourceDir, tempShaDir, e_1, e_2, e_3, newDir, e_4, e_5, time, stdErrMsg, startTime, endTime, docsUrl, timer;
@@ -17215,11 +17215,16 @@ var CI = process.env.CI;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    // console.log('here is next', commands);
+                    console.log('GH action path', GITHUB_ACTION_PATH);
+                    (0,external_child_process_namespaceObject.execSync)("ls -la ".concat(GITHUB_ACTION_PATH));
                     username = core.getInput('username') || DEFAULTS.USERNAME;
                     email = core.getInput('email') || DEFAULTS.EMAIL;
                     timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
                     pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
                     workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
+                    console.log('test');
+                    process.exit(1);
                     context = github.context;
                     _a = context.repo, owner = _a.owner, repo = _a.repo;
                     docsRootUrl = "https://".concat(owner, ".github.io/").concat(repo);

@@ -17,14 +17,21 @@ const DEFAULTS = {
   WORKSPACE: '',
 };
 
-const { CI } = process.env;
+const { CI, GITHUB_ACTION_PATH } = process.env;
 
 (async function () {
+  // console.log('here is next', commands);
+  console.log('GH action path', GITHUB_ACTION_PATH);
+  execSync(`ls -la ${GITHUB_ACTION_PATH}`);
+
   const username = core.getInput('username') || DEFAULTS.USERNAME;
   const email = core.getInput('email') || DEFAULTS.EMAIL;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
   const workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
+
+  console.log('test');
+  process.exit(1);
 
   const context = github.context;
   const {
