@@ -99,7 +99,8 @@ const {
   execSync(`cd ${GITHUB_WORKSPACE}`);
 
   // make sure that we changed the directory correctly
-  execSync(`ls -la`);
+  console.log(execSync(`ls -la`).toString().trim());
+  console.log('after listing contents');
 
   if (CI) {
     execSync(`git config --global user.email "${email}"`);
