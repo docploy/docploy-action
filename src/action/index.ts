@@ -1,5 +1,4 @@
 import * as core from '@actions/core';
-import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
 import axios from 'axios';
@@ -40,25 +39,6 @@ const { CI } = process.env;
   // const writePath = path.resolve(__dirname, '..', 'static', 'docs');
   // path to the built Next.js assets (html, css, etc)
   const builtAssetsPath = path.join(process.cwd(), 'out');
-
-  /* debugging */
-  let myOutput = '';
-  let myError = '';
-
-  const options: any = {};
-  options.listeners = {
-    stdout: (data: Buffer) => {
-      myOutput += data.toString();
-    },
-    stderr: (data: Buffer) => {
-      myError += data.toString();
-    },
-  };
-  /* end debugging */
-
-  await exec.exec('ls', ['-la'], options);
-  await exec.exec('/bin/bash -c "ls -la"', options);
-  process.exit(1);
 
   console.log('current dir contents');
   console.log(execSync('ls -la').toString());
