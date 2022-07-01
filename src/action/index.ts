@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
 import axios from 'axios';
@@ -98,7 +99,9 @@ const {
   // change working directory to main repo
   console.log('change dir');
   // console.log(execSync(`cd ${GITHUB_WORKSPACE}`).toString().trim());
-  console.log(execSync(`cd /`).toString().trim());
+  // console.log(execSync(`cd /`).toString().trim());
+  exec.exec(`cd ${GITHUB_WORKSPACE}`);
+  exec.exec(`pwd`);
   console.log('github workspace', GITHUB_WORKSPACE);
   console.log('pwd');
   console.log(execSync(`pwd`).toString().trim());
