@@ -17203,7 +17203,7 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     builtAssetsPath = external_path_default().join(GITHUB_ACTION_PATH, 'out');
                     console.log('buildAssetsPath', builtAssetsPath);
                     console.log('conents of action docs', (0,external_child_process_namespaceObject.execSync)("ls -la ".concat(builtAssetsPath)).toString().trim());
-                    shortSha = GITHUB_SHA.substring(0, 6);
+                    shortSha = GITHUB_SHA.substring(0, 7);
                     console.log('shortSha', shortSha);
                     // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
                     // const tempShaDir = path.join(tempDir, shortSha);
@@ -17227,6 +17227,8 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.email \"".concat(email, "\""));
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.name \"".concat(username, "\""));
                     }
+                    // change working directory to main repo
+                    (0,external_child_process_namespaceObject.execSync)("cd ".concat(GITHUB_WORKSPACE));
                     // git fetch
                     (0,external_child_process_namespaceObject.execSync)('git fetch');
                     // git switch

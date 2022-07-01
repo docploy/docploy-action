@@ -70,7 +70,7 @@ const {
 
   // There is an environment variable that will allow us to get the SHA commit if this does not work.
   // const shortSha = execSync('git rev-parse --short HEAD').toString().trim();
-  const shortSha = GITHUB_SHA.substring(0, 6);
+  const shortSha = GITHUB_SHA.substring(0, 7);
   console.log('shortSha', shortSha);
   // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
 
@@ -99,6 +99,9 @@ const {
     execSync(`git config --global user.email "${email}"`);
     execSync(`git config --global user.name "${username}"`);
   }
+
+  // change working directory to main repo
+  execSync(`cd ${GITHUB_WORKSPACE}`);
 
   // git fetch
   execSync('git fetch');
