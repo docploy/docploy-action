@@ -98,6 +98,9 @@ const {
   // change working directory to main repo
   execSync(`cd ${GITHUB_WORKSPACE}`);
 
+  // make sure that we changed the directory correctly
+  execSync(`ls -la`);
+
   if (CI) {
     execSync(`git config --global user.email "${email}"`);
     execSync(`git config --global user.name "${username}"`);

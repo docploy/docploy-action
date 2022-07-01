@@ -17225,6 +17225,8 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     // }
                     // change working directory to main repo
                     (0,external_child_process_namespaceObject.execSync)("cd ".concat(GITHUB_WORKSPACE));
+                    // make sure that we changed the directory correctly
+                    (0,external_child_process_namespaceObject.execSync)("ls -la");
                     if (CI) {
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.email \"".concat(email, "\""));
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.name \"".concat(username, "\""));
