@@ -15,5 +15,5 @@ inputs:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
 
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: 'docker'
+  image: 'Dockerfile'
