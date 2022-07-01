@@ -16,9 +16,18 @@ const DEFAULTS = {
   PAGES_BRANCH: 'gh-pages',
 };
 
-const { CI, GITHUB_ACTION_PATH = './', GITHUB_WORKSPACE = '' } = process.env;
+const {
+  CI,
+  GITHUB_ACTION_PATH = './',
+  GITHUB_SHA,
+  GITHUB_WORKSPACE = '',
+} = process.env;
 
 (async function () {
+  if (!GITHUB_SHA) {
+    console.error('Unable to find a GITHUB_SHA');
+    process.exit(1);
+  }
   const username = core.getInput('username') || DEFAULTS.USERNAME;
   const email = core.getInput('email') || DEFAULTS.EMAIL;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
@@ -42,9 +51,10 @@ const { CI, GITHUB_ACTION_PATH = './', GITHUB_WORKSPACE = '' } = process.env;
 
   // TODO: Use the above GITHUB_WORKSPACE path instead
   const builtAssetsPath = path.join(GITHUB_ACTION_PATH, 'out');
+  console.log('buildAssetsPath', builtAssetsPath);
   console.log(
     'conents of action docs',
-    execSync('git rev-parse --short HEAD').toString().trim()
+    execSync(`ls -la ${builtAssetsPath}`).toString().trim()
   );
 
   // Do we still need this? No longer need a temporary directory since we can store all
@@ -59,7 +69,8 @@ const { CI, GITHUB_ACTION_PATH = './', GITHUB_WORKSPACE = '' } = process.env;
   // await buildHtml(mdPath, writePath);
 
   // There is an environment variable that will allow us to get the SHA commit if this does not work.
-  const shortSha = execSync('git rev-parse --short HEAD').toString().trim();
+  // const shortSha = execSync('git rev-parse --short HEAD').toString().trim();
+  const shortSha = GITHUB_SHA.substring(0, 6);
   console.log('shortSha', shortSha);
   // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
 

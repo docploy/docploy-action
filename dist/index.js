@@ -17181,7 +17181,7 @@ var DEFAULTS = {
     TIMEOUT: 120,
     PAGES_BRANCH: 'gh-pages',
 };
-var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH = _b === void 0 ? './' : _b, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? '' : _c;
+var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH = _b === void 0 ? './' : _b, GITHUB_SHA = _a.GITHUB_SHA, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? '' : _c;
 (function () {
     return __awaiter(this, void 0, void 0, function () {
         var username, email, timeout, pagesBranch, context, _a, owner, repo, docsRootUrl, builtAssetsPath, shortSha, workspaceDocsPath, e_1, e_2, time, stdErrMsg, startTime, endTime, docsUrl, timer;
@@ -17189,6 +17189,10 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    if (!GITHUB_SHA) {
+                        console.error('Unable to find a GITHUB_SHA');
+                        process.exit(1);
+                    }
                     username = core.getInput('username') || DEFAULTS.USERNAME;
                     email = core.getInput('email') || DEFAULTS.EMAIL;
                     timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
@@ -17197,8 +17201,9 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     _a = context.repo, owner = _a.owner, repo = _a.repo;
                     docsRootUrl = "https://".concat(owner, ".github.io/").concat(repo);
                     builtAssetsPath = external_path_default().join(GITHUB_ACTION_PATH, 'out');
-                    console.log('conents of action docs', (0,external_child_process_namespaceObject.execSync)('git rev-parse --short HEAD').toString().trim());
-                    shortSha = (0,external_child_process_namespaceObject.execSync)('git rev-parse --short HEAD').toString().trim();
+                    console.log('buildAssetsPath', builtAssetsPath);
+                    console.log('conents of action docs', (0,external_child_process_namespaceObject.execSync)("ls -la ".concat(builtAssetsPath)).toString().trim());
+                    shortSha = GITHUB_SHA.substring(0, 6);
                     console.log('shortSha', shortSha);
                     // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
                     // const tempShaDir = path.join(tempDir, shortSha);
