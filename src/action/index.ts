@@ -14,24 +14,15 @@ const DEFAULTS = {
   EMAIL: 'test@test.com',
   TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
   PAGES_BRANCH: 'gh-pages',
-  WORKSPACE: '',
 };
 
-const { CI, GITHUB_ACTION_PATH } = process.env;
+const { CI, GITHUB_ACTION_PATH = './', GITHUB_WORKSPACE = '' } = process.env;
 
 (async function () {
-  // console.log('here is next', commands);
-  console.log('GH action path', GITHUB_ACTION_PATH);
-  execSync(`ls -la ${GITHUB_ACTION_PATH}`);
-
   const username = core.getInput('username') || DEFAULTS.USERNAME;
   const email = core.getInput('email') || DEFAULTS.EMAIL;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
-  const workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
-
-  console.log('test');
-  process.exit(1);
 
   const context = github.context;
   const {
@@ -45,55 +36,58 @@ const { CI, GITHUB_ACTION_PATH } = process.env;
   // const mdPath = path.resolve(__dirname, '..', 'docs');
   // const writePath = path.resolve(__dirname, '..', 'static', 'docs');
   // path to the built Next.js assets (html, css, etc)
-  const builtAssetsPath = path.join(process.cwd(), 'out');
 
-  console.log('current dir contents');
-  console.log(execSync('ls -la').toString());
+  // path to the built Next.js assets (html, css, etc)
+  // const builtAssetsPath = path.join(GITHUB_WORKSPACE, 'out');
 
-  const workspaceDir = path.join(process.env.GITHUB_WORKSPACE || '');
-  console.log('workspaceDir', workspaceDir);
-  console.log(execSync(`ls -la ${workspaceDir}`).toString());
+  // TODO: Use the above GITHUB_WORKSPACE path instead
+  const builtAssetsPath = path.join(GITHUB_ACTION_PATH, 'out');
+  console.log(
+    'conents of action docs',
+    execSync('git rev-parse --short HEAD').toString().trim()
+  );
 
-  process.exit(1);
-
+  // Do we still need this? No longer need a temporary directory since we can store all
+  // of the generated files in the action folder, and use the action folder as a cache.
   // try {
   //   await fse.mkdirp(writePath);
   // } catch (e) {
   //   console.error(e);
   // }
 
+  // We do not need this any longer since we are going to use Next.js to generate the output files.
   // await buildHtml(mdPath, writePath);
-  execSync('yarn run build:next');
 
+  // There is an environment variable that will allow us to get the SHA commit if this does not work.
   const shortSha = execSync('git rev-parse --short HEAD').toString().trim();
-  const sourceDir = path.join(__dirname, '..', 'static', 'docs');
+  console.log('shortSha', shortSha);
+  // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
 
-  const tempShaDir = path.join(tempDir, shortSha);
+  // const tempShaDir = path.join(tempDir, shortSha);
 
-  try {
-    await fse.mkdirp(tempShaDir);
-  } catch (e) {
-    console.error(e);
-  }
+  // try {
+  //   await fse.mkdirp(tempShaDir);
+  // } catch (e) {
+  //   console.error(e);
+  // }
 
-  try {
-    await fse.copy(sourceDir, tempShaDir);
-  } catch (e) {
-    console.error(e);
-  }
+  // try {
+  //   await fse.copy(sourceDir, tempShaDir);
+  // } catch (e) {
+  //   console.error(e);
+  // }
 
-  try {
-    await fs.promises.readdir(tempShaDir);
-  } catch (e) {
-    console.error(e);
-  }
+  // // Do we actually need this code, or were we using this as debugging code?
+  // try {
+  //   await fs.promises.readdir(tempShaDir);
+  // } catch (e) {
+  //   console.error(e);
+  // }
 
   if (CI) {
     execSync(`git config --global user.email "${email}"`);
     execSync(`git config --global user.name "${username}"`);
   }
-
-  process.exit(1);
 
   // git fetch
   execSync('git fetch');
@@ -103,20 +97,32 @@ const { CI, GITHUB_ACTION_PATH } = process.env;
 
   execSync('git clean -f -d');
 
-  execSync(`git rebase origin/${pagesBranch}`);
+  // Do we need to rebase? The git commit history should be able to be wiped completely.
+  // Let the user know that we will be wiping the branch.
+  // execSync(`git rebase origin/${pagesBranch}`);
 
   // move files from temp directory to the root
-  const newDir = path.join('.', shortSha);
+  const workspaceDocsPath = path.join(GITHUB_WORKSPACE, shortSha);
 
   // remove the existing directory if it exists
+  // this will happen if someone tries to push the same commit hash again
   try {
-    await fs.promises.rm(newDir, { recursive: true });
+    await fs.promises.rm(workspaceDocsPath, { recursive: true });
   } catch (e) {
     console.error('There was an error removing the directory', e);
   }
 
+  // try {
+  //   await fse.move(tempShaDir, newDir);
+  // } catch (e) {
+  //   console.error(
+  //     'There was an error moving the temporary directory into the new directory',
+  //     e
+  //   );
+  // }
+
   try {
-    await fse.move(tempShaDir, newDir);
+    await fse.move(builtAssetsPath, workspaceDocsPath);
   } catch (e) {
     console.error(
       'There was an error moving the temporary directory into the new directory',
@@ -128,12 +134,13 @@ const { CI, GITHUB_ACTION_PATH } = process.env;
 
   const time = Date.now();
   try {
-    execSync(`git commit -m "${shortSha}-${time}"`);
+    execSync(`git commit -m "Publishing docs for ${shortSha}"`);
   } catch (e: any) {
     const stdErrMsg = e.stderr.toString('utf-8');
     console.error('There was an error creating a new commit:', stdErrMsg);
   }
 
+  process.exit(1);
   execSync(`git push --set-upstream origin ${pagesBranch}`);
 
   const startTime = Date.now();
@@ -141,6 +148,7 @@ const { CI, GITHUB_ACTION_PATH } = process.env;
 
   const docsUrl = docsRootUrl + '/' + shortSha;
 
+  // Keep polling the docs at regular intervals to check when the docs have finished deploying.
   const timer = setInterval(async () => {
     let res;
 

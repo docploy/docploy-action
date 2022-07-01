@@ -14336,27 +14336,6 @@ function onceStrict (fn) {
 
 /***/ }),
 
-/***/ 8770:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-const fs = __nccwpck_require__(7147);
-const os = __nccwpck_require__(2037);
-
-const tempDirectorySymbol = Symbol.for('__RESOLVED_TEMP_DIRECTORY__');
-
-if (!global[tempDirectorySymbol]) {
-	Object.defineProperty(global, tempDirectorySymbol, {
-		value: fs.realpathSync(os.tmpdir())
-	});
-}
-
-module.exports = global[tempDirectorySymbol];
-
-
-/***/ }),
-
 /***/ 4256:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -17152,9 +17131,6 @@ var lib_default = /*#__PURE__*/__nccwpck_require__.n(lib);
 // EXTERNAL MODULE: external "path"
 var external_path_ = __nccwpck_require__(1017);
 var external_path_default = /*#__PURE__*/__nccwpck_require__.n(external_path_);
-// EXTERNAL MODULE: ./node_modules/temp-dir/index.js
-var temp_dir = __nccwpck_require__(8770);
-var temp_dir_default = /*#__PURE__*/__nccwpck_require__.n(temp_dir);
 ;// CONCATENATED MODULE: ./src/action/index.ts
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -17199,133 +17175,97 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-
 var DEFAULTS = {
     USERNAME: 'docs-bot',
     EMAIL: 'test@test.com',
     TIMEOUT: 120,
     PAGES_BRANCH: 'gh-pages',
-    WORKSPACE: '',
 };
-var _a = process.env, CI = _a.CI, GITHUB_ACTION_PATH = _a.GITHUB_ACTION_PATH;
+var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH = _b === void 0 ? './' : _b, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? '' : _c;
 (function () {
     return __awaiter(this, void 0, void 0, function () {
-        var username, email, timeout, pagesBranch, workspace, context, _a, owner, repo, docsRootUrl, builtAssetsPath, workspaceDir, shortSha, sourceDir, tempShaDir, e_1, e_2, e_3, newDir, e_4, e_5, time, stdErrMsg, startTime, endTime, docsUrl, timer;
+        var username, email, timeout, pagesBranch, context, _a, owner, repo, docsRootUrl, builtAssetsPath, shortSha, workspaceDocsPath, e_1, e_2, time, stdErrMsg, startTime, endTime, docsUrl, timer;
         var _this = this;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    // console.log('here is next', commands);
-                    console.log('GH action path', GITHUB_ACTION_PATH);
-                    (0,external_child_process_namespaceObject.execSync)("ls -la ".concat(GITHUB_ACTION_PATH));
                     username = core.getInput('username') || DEFAULTS.USERNAME;
                     email = core.getInput('email') || DEFAULTS.EMAIL;
                     timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
                     pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
-                    workspace = core.getInput('workspace') || DEFAULTS.WORKSPACE;
-                    console.log('test');
-                    process.exit(1);
                     context = github.context;
                     _a = context.repo, owner = _a.owner, repo = _a.repo;
                     docsRootUrl = "https://".concat(owner, ".github.io/").concat(repo);
-                    builtAssetsPath = __nccwpck_require__.ab + "out";
-                    console.log('current dir contents');
-                    console.log((0,external_child_process_namespaceObject.execSync)('ls -la').toString());
-                    workspaceDir = external_path_default().join(process.env.GITHUB_WORKSPACE || '');
-                    console.log('workspaceDir', workspaceDir);
-                    console.log((0,external_child_process_namespaceObject.execSync)("ls -la ".concat(workspaceDir)).toString());
-                    process.exit(1);
+                    builtAssetsPath = external_path_default().join(GITHUB_ACTION_PATH, 'out');
+                    console.log('conents of action docs', (0,external_child_process_namespaceObject.execSync)('git rev-parse --short HEAD').toString().trim());
+                    shortSha = (0,external_child_process_namespaceObject.execSync)('git rev-parse --short HEAD').toString().trim();
+                    console.log('shortSha', shortSha);
+                    // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
+                    // const tempShaDir = path.join(tempDir, shortSha);
                     // try {
-                    //   await fse.mkdirp(writePath);
+                    //   await fse.mkdirp(tempShaDir);
                     // } catch (e) {
                     //   console.error(e);
                     // }
-                    // await buildHtml(mdPath, writePath);
-                    (0,external_child_process_namespaceObject.execSync)('yarn run build:next');
-                    shortSha = (0,external_child_process_namespaceObject.execSync)('git rev-parse --short HEAD').toString().trim();
-                    sourceDir = external_path_default().join(__dirname, '..', 'static', 'docs');
-                    tempShaDir = external_path_default().join((temp_dir_default()), shortSha);
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, lib_default().mkdirp(tempShaDir)];
-                case 2:
-                    _b.sent();
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_1 = _b.sent();
-                    console.error(e_1);
-                    return [3 /*break*/, 4];
-                case 4:
-                    _b.trys.push([4, 6, , 7]);
-                    return [4 /*yield*/, lib_default().copy(sourceDir, tempShaDir)];
-                case 5:
-                    _b.sent();
-                    return [3 /*break*/, 7];
-                case 6:
-                    e_2 = _b.sent();
-                    console.error(e_2);
-                    return [3 /*break*/, 7];
-                case 7:
-                    _b.trys.push([7, 9, , 10]);
-                    return [4 /*yield*/, external_fs_default().promises.readdir(tempShaDir)];
-                case 8:
-                    _b.sent();
-                    return [3 /*break*/, 10];
-                case 9:
-                    e_3 = _b.sent();
-                    console.error(e_3);
-                    return [3 /*break*/, 10];
-                case 10:
+                    // try {
+                    //   await fse.copy(sourceDir, tempShaDir);
+                    // } catch (e) {
+                    //   console.error(e);
+                    // }
+                    // // Do we actually need this code, or were we using this as debugging code?
+                    // try {
+                    //   await fs.promises.readdir(tempShaDir);
+                    // } catch (e) {
+                    //   console.error(e);
+                    // }
                     if (CI) {
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.email \"".concat(email, "\""));
                         (0,external_child_process_namespaceObject.execSync)("git config --global user.name \"".concat(username, "\""));
                     }
-                    process.exit(1);
                     // git fetch
                     (0,external_child_process_namespaceObject.execSync)('git fetch');
                     // git switch
                     (0,external_child_process_namespaceObject.execSync)("git switch -c ".concat(pagesBranch));
                     (0,external_child_process_namespaceObject.execSync)('git clean -f -d');
-                    (0,external_child_process_namespaceObject.execSync)("git rebase origin/".concat(pagesBranch));
-                    newDir = external_path_default().join('.', shortSha);
-                    _b.label = 11;
-                case 11:
-                    _b.trys.push([11, 13, , 14]);
-                    return [4 /*yield*/, external_fs_default().promises.rm(newDir, { recursive: true })];
-                case 12:
+                    workspaceDocsPath = external_path_default().join(GITHUB_WORKSPACE, shortSha);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, external_fs_default().promises.rm(workspaceDocsPath, { recursive: true })];
+                case 2:
                     _b.sent();
-                    return [3 /*break*/, 14];
-                case 13:
-                    e_4 = _b.sent();
-                    console.error('There was an error removing the directory', e_4);
-                    return [3 /*break*/, 14];
-                case 14:
-                    _b.trys.push([14, 16, , 17]);
-                    return [4 /*yield*/, lib_default().move(tempShaDir, newDir)];
-                case 15:
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _b.sent();
+                    console.error('There was an error removing the directory', e_1);
+                    return [3 /*break*/, 4];
+                case 4:
+                    _b.trys.push([4, 6, , 7]);
+                    return [4 /*yield*/, lib_default().move(builtAssetsPath, workspaceDocsPath)];
+                case 5:
                     _b.sent();
-                    return [3 /*break*/, 17];
-                case 16:
-                    e_5 = _b.sent();
-                    console.error('There was an error moving the temporary directory into the new directory', e_5);
-                    return [3 /*break*/, 17];
-                case 17:
+                    return [3 /*break*/, 7];
+                case 6:
+                    e_2 = _b.sent();
+                    console.error('There was an error moving the temporary directory into the new directory', e_2);
+                    return [3 /*break*/, 7];
+                case 7:
                     (0,external_child_process_namespaceObject.execSync)('git add .');
                     time = Date.now();
                     try {
-                        (0,external_child_process_namespaceObject.execSync)("git commit -m \"".concat(shortSha, "-").concat(time, "\""));
+                        (0,external_child_process_namespaceObject.execSync)("git commit -m \"Publishing docs for ".concat(shortSha, "\""));
                     }
                     catch (e) {
                         stdErrMsg = e.stderr.toString('utf-8');
                         console.error('There was an error creating a new commit:', stdErrMsg);
                     }
+                    process.exit(1);
                     (0,external_child_process_namespaceObject.execSync)("git push --set-upstream origin ".concat(pagesBranch));
                     startTime = Date.now();
                     endTime = startTime + timeout * 1000;
                     docsUrl = docsRootUrl + '/' + shortSha;
                     timer = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var res, e_6;
+                        var res, e_3;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0:
@@ -17335,7 +17275,7 @@ var _a = process.env, CI = _a.CI, GITHUB_ACTION_PATH = _a.GITHUB_ACTION_PATH;
                                     res = _a.sent();
                                     return [3 /*break*/, 3];
                                 case 2:
-                                    e_6 = _a.sent();
+                                    e_3 = _a.sent();
                                     console.log("Waiting for docs(".concat(docsUrl, ") to be deployed..."));
                                     return [3 /*break*/, 3];
                                 case 3:
