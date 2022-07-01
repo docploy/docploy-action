@@ -96,7 +96,8 @@ const {
   // }
 
   // change working directory to main repo
-  execSync(`cd ${GITHUB_WORKSPACE}`);
+  console.log('change dir');
+  console.log(execSync(`cd ${GITHUB_WORKSPACE}`).toString().trim());
   console.log('github workspace', GITHUB_WORKSPACE);
   console.log('pwd');
   console.log(execSync(`pwd`).toString().trim());
