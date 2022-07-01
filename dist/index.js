@@ -17225,6 +17225,9 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     // }
                     // change working directory to main repo
                     (0,external_child_process_namespaceObject.execSync)("cd ".concat(GITHUB_WORKSPACE));
+                    console.log('github workspace', GITHUB_WORKSPACE);
+                    console.log('pwd');
+                    console.log((0,external_child_process_namespaceObject.execSync)("pwd").toString().trim());
                     // make sure that we changed the directory correctly
                     console.log((0,external_child_process_namespaceObject.execSync)("ls -la").toString().trim());
                     console.log('after listing contents');
