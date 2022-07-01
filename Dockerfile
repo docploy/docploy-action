@@ -1,4 +1,5 @@
 FROM node:slim
-COPY . ./action
+COPY . .
+RUN ls -la
 RUN yarn
 ENTRYPOINT ["node", "/dist/index.js"]
