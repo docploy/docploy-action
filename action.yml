@@ -14,6 +14,14 @@ inputs:
   pagesBranch:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
 
+# runs:
+#   using: 'node16'
+#   main: 'dist/index.js'
+
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - run: ls -la
+      shell: bash
+    - run: node dist/index.js
+      shell: bash
