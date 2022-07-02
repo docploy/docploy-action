@@ -11,10 +11,7 @@ import path from 'path';
 import tempDir from 'temp-dir';
 
 const DEFAULTS = {
-  USERNAME: 'docs-bot',
-  EMAIL: 'test@test.com',
   TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
-  PAGES_BRANCH: 'gh-pages',
 };
 
 const {
@@ -29,10 +26,10 @@ const {
     console.error('Unable to find a GITHUB_SHA');
     process.exit(1);
   }
-  const username = core.getInput('username') || DEFAULTS.USERNAME;
-  const email = core.getInput('email') || DEFAULTS.EMAIL;
-  const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
-  const pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
+  const username = core.getInput('username');
+  const email = core.getInput('email');
+  const timeout = parseInt(core.getInput('timeout'));
+  const pagesBranch = core.getInput('pagesBranch');
 
   const context = github.context;
   const {

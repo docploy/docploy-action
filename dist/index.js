@@ -9094,10 +9094,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 var DEFAULTS = {
-    USERNAME: 'docs-bot',
-    EMAIL: 'test@test.com',
-    TIMEOUT: 120,
-    PAGES_BRANCH: 'gh-pages',
+    TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
 };
 var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH = _b === void 0 ? './' : _b, GITHUB_SHA = _a.GITHUB_SHA, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? '' : _c;
 (function () {
@@ -9108,10 +9105,10 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                 console.error('Unable to find a GITHUB_SHA');
                 process.exit(1);
             }
-            username = core.getInput('username') || DEFAULTS.USERNAME;
-            email = core.getInput('email') || DEFAULTS.EMAIL;
-            timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
-            pagesBranch = core.getInput('pagesBranch') || DEFAULTS.PAGES_BRANCH;
+            username = core.getInput('username');
+            email = core.getInput('email');
+            timeout = parseInt(core.getInput('timeout'));
+            pagesBranch = core.getInput('pagesBranch');
             context = github.context;
             _a = context.repo, owner = _a.owner, repo = _a.repo;
             docsRootUrl = "https://".concat(owner, ".github.io/").concat(repo);

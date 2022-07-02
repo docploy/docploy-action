@@ -5,10 +5,13 @@ inputs:
     description: 'The GITHUB_TOKEN secret'
   username:
     description: 'Username for doc generation commits'
+    default: 'docs-bot'
   email:
     description: 'Email for doc generation commits'
+    default: 'docs-bot@github.com'
   timeout:
     description: 'Timeout for waiting until docs are generated, in seconds (default: 60)'
+    default: 120,
   pagesBranch:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
     default: 'gh-pages'
@@ -27,6 +30,8 @@ runs:
       shell: bash
     - name: Push built docs to GitHub Pages branch
       run: |
+        git config --global user.email "${{ inputs.email }}"
+        git config --global user.name "${{ inputs.username }}"
         git fetch
         echo ${{ inputs.pagesBranch }}
         git switch -c ${{ inputs.pagesBranch }}
