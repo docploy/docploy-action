@@ -106,43 +106,52 @@ const {
   console.log('pwd');
   console.log(execSync(`pwd`).toString().trim());
 
-  return;
+  // return;
 
-  // make sure that we changed the directory correctly
-  console.log(execSync(`ls -la`).toString().trim());
-  console.log(execSync(`ls -la ${GITHUB_WORKSPACE}/.git`).toString().trim());
-  console.log('after listing contents');
+  // // make sure that we changed the directory correctly
+  // console.log(execSync(`ls -la`).toString().trim());
+  // console.log(execSync(`ls -la ${GITHUB_WORKSPACE}/.git`).toString().trim());
+  // console.log('after listing contents');
 
-  if (CI) {
-    execSync(`git config --global user.email "${email}"`);
-    execSync(`git config --global user.name "${username}"`);
-  }
+  // if (CI) {
+  //   execSync(`git config --global user.email "${email}"`);
+  //   execSync(`git config --global user.name "${username}"`);
+  // }
 
-  // git fetch
-  execSync(`git --git-dir=${GITHUB_WORKSPACE} fetch`);
+  // // git fetch
+  // execSync(`git --git-dir=${GITHUB_WORKSPACE} fetch`);
 
-  // git switch
-  execSync(`git --git-dir=${GITHUB_WORKSPACE} switch -c ${pagesBranch}`);
+  // // git switch
+  // execSync(`git --git-dir=${GITHUB_WORKSPACE} switch -c ${pagesBranch}`);
 
-  execSync(`git --git-dir=${GITHUB_WORKSPACE} clean -f -d`);
+  // execSync(`git --git-dir=${GITHUB_WORKSPACE} clean -f -d`);
 
-  // Do we need to rebase? The git commit history should be able to be wiped completely.
-  // Let the user know that we will be wiping the branch.
-  // execSync(`git rebase origin/${pagesBranch}`);
+  // // Do we need to rebase? The git commit history should be able to be wiped completely.
+  // // Let the user know that we will be wiping the branch.
+  // // execSync(`git rebase origin/${pagesBranch}`);
 
-  // move files from temp directory to the root
-  const workspaceDocsPath = path.join(GITHUB_WORKSPACE, shortSha);
+  // // move files from temp directory to the root
+  // const workspaceDocsPath = path.join(GITHUB_WORKSPACE, shortSha);
 
-  // remove the existing directory if it exists
-  // this will happen if someone tries to push the same commit hash again
-  try {
-    await fs.promises.rm(workspaceDocsPath, { recursive: true });
-  } catch (e) {
-    console.error('There was an error removing the directory', e);
-  }
+  // // remove the existing directory if it exists
+  // // this will happen if someone tries to push the same commit hash again
+  // try {
+  //   await fs.promises.rm(workspaceDocsPath, { recursive: true });
+  // } catch (e) {
+  //   console.error('There was an error removing the directory', e);
+  // }
+
+  // // try {
+  // //   await fse.move(tempShaDir, newDir);
+  // // } catch (e) {
+  // //   console.error(
+  // //     'There was an error moving the temporary directory into the new directory',
+  // //     e
+  // //   );
+  // // }
 
   // try {
-  //   await fse.move(tempShaDir, newDir);
+  //   await fse.move(builtAssetsPath, workspaceDocsPath);
   // } catch (e) {
   //   console.error(
   //     'There was an error moving the temporary directory into the new directory',
@@ -150,56 +159,47 @@ const {
   //   );
   // }
 
-  try {
-    await fse.move(builtAssetsPath, workspaceDocsPath);
-  } catch (e) {
-    console.error(
-      'There was an error moving the temporary directory into the new directory',
-      e
-    );
-  }
+  // execSync('git add .');
 
-  execSync('git add .');
+  // const time = Date.now();
+  // try {
+  //   execSync(
+  //     `git --git-dir=${GITHUB_WORKSPACE}commit -m "Publishing docs for ${shortSha}"`
+  //   );
+  // } catch (e: any) {
+  //   const stdErrMsg = e.stderr.toString('utf-8');
+  //   console.error('There was an error creating a new commit:', stdErrMsg);
+  // }
 
-  const time = Date.now();
-  try {
-    execSync(
-      `git --git-dir=${GITHUB_WORKSPACE}commit -m "Publishing docs for ${shortSha}"`
-    );
-  } catch (e: any) {
-    const stdErrMsg = e.stderr.toString('utf-8');
-    console.error('There was an error creating a new commit:', stdErrMsg);
-  }
+  // process.exit(1);
+  // execSync(
+  //   `git --git-dir=${GITHUB_WORKSPACE} push --set-upstream origin ${pagesBranch}`
+  // );
 
-  process.exit(1);
-  execSync(
-    `git --git-dir=${GITHUB_WORKSPACE} push --set-upstream origin ${pagesBranch}`
-  );
+  // const startTime = Date.now();
+  // const endTime = startTime + timeout * 1000;
 
-  const startTime = Date.now();
-  const endTime = startTime + timeout * 1000;
+  // const docsUrl = docsRootUrl + '/' + shortSha;
 
-  const docsUrl = docsRootUrl + '/' + shortSha;
+  // // Keep polling the docs at regular intervals to check when the docs have finished deploying.
+  // const timer = setInterval(async () => {
+  //   let res;
 
-  // Keep polling the docs at regular intervals to check when the docs have finished deploying.
-  const timer = setInterval(async () => {
-    let res;
+  //   try {
+  //     res = await axios.get(docsUrl);
+  //   } catch (e) {
+  //     console.log(`Waiting for docs(${docsUrl}) to be deployed...`);
+  //   }
 
-    try {
-      res = await axios.get(docsUrl);
-    } catch (e) {
-      console.log(`Waiting for docs(${docsUrl}) to be deployed...`);
-    }
+  //   if (res && res.status === 200) {
+  //     console.log('We successfully deployed the docs on', docsUrl);
+  //     clearInterval(timer);
+  //     return;
+  //   }
 
-    if (res && res.status === 200) {
-      console.log('We successfully deployed the docs on', docsUrl);
-      clearInterval(timer);
-      return;
-    }
-
-    if (Date.now() > endTime) {
-      console.error('We were unable to deploy the docs.');
-      process.exit(1);
-    }
-  }, 3000);
+  //   if (Date.now() > endTime) {
+  //     console.error('We were unable to deploy the docs.');
+  //     process.exit(1);
+  //   }
+  // }, 3000);
 })();
