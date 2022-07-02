@@ -106,6 +106,8 @@ const {
   console.log('pwd');
   console.log(execSync(`pwd`).toString().trim());
 
+  return;
+
   // make sure that we changed the directory correctly
   console.log(execSync(`ls -la`).toString().trim());
   console.log(execSync(`ls -la ${GITHUB_WORKSPACE}/.git`).toString().trim());

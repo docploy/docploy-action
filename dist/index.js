@@ -18519,21 +18519,7 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     console.log('github workspace', GITHUB_WORKSPACE);
                     console.log('pwd');
                     console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("pwd").toString().trim());
-                    // make sure that we changed the directory correctly
-                    console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("ls -la").toString().trim());
-                    console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("ls -la ".concat(GITHUB_WORKSPACE, "/.git")).toString().trim());
-                    console.log('after listing contents');
-                    if (CI) {
-                        (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git config --global user.email \"".concat(email, "\""));
-                        (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git config --global user.name \"".concat(username, "\""));
-                    }
-                    // git fetch
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " fetch"));
-                    // git switch
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " switch -c ").concat(pagesBranch));
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " clean -f -d"));
-                    workspaceDocsPath = path__WEBPACK_IMPORTED_MODULE_6___default().join(GITHUB_WORKSPACE, shortSha);
-                    _b.label = 1;
+                    return [2 /*return*/];
                 case 1:
                     _b.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, fs__WEBPACK_IMPORTED_MODULE_5___default().promises.rm(workspaceDocsPath, { recursive: true })];
