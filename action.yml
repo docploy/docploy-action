@@ -36,13 +36,14 @@ runs:
         echo ${{ inputs.pagesBranch }}
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
+        git rebase origin/${{ inputs.pagesBranch }}
         SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-8)
         echo $GITHUB_SHA
         echo "short sha"
         echo $SHORT_SHA
         cp -r $GITHUB_ACTION_PATH/out ./$SHORT_SHA
         git add .
-        git commit -m "Publishing docs"
+        git commit -m "Publishing docs for $SHORT_SHA"
         git push origin ${{ inputs.pagesBranch }}
       shell: bash
     # - run: node dist/poll.js
