@@ -18521,7 +18521,7 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("pwd").toString().trim());
                     // make sure that we changed the directory correctly
                     console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("ls -la").toString().trim());
-                    console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("ls -la ".concat(GITHUB_WORKSPACE)).toString().trim());
+                    console.log((0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("ls -la ".concat(GITHUB_WORKSPACE, "/.git")).toString().trim());
                     console.log('after listing contents');
                     if (CI) {
                         (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git config --global user.email \"".concat(email, "\""));
