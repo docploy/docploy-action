@@ -18527,10 +18527,10 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                         (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git config --global user.name \"".concat(username, "\""));
                     }
                     // git fetch
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)('git fetch');
+                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " fetch"));
                     // git switch
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git switch -c ".concat(pagesBranch));
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)('git clean -f -d');
+                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " switch -c ").concat(pagesBranch));
+                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " clean -f -d"));
                     workspaceDocsPath = path__WEBPACK_IMPORTED_MODULE_6___default().join(GITHUB_WORKSPACE, shortSha);
                     _b.label = 1;
                 case 1:
@@ -18557,14 +18557,14 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
                     (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)('git add .');
                     time = Date.now();
                     try {
-                        (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git commit -m \"Publishing docs for ".concat(shortSha, "\""));
+                        (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, "commit -m \"Publishing docs for ").concat(shortSha, "\""));
                     }
                     catch (e) {
                         stdErrMsg = e.stderr.toString('utf-8');
                         console.error('There was an error creating a new commit:', stdErrMsg);
                     }
                     process.exit(1);
-                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git push --set-upstream origin ".concat(pagesBranch));
+                    (0,child_process__WEBPACK_IMPORTED_MODULE_4__.execSync)("git --git-dir=".concat(GITHUB_WORKSPACE, " push --set-upstream origin ").concat(pagesBranch));
                     startTime = Date.now();
                     endTime = startTime + timeout * 1000;
                     docsUrl = docsRootUrl + '/' + shortSha;

@@ -116,12 +116,12 @@ const {
   }
 
   // git fetch
-  execSync('git fetch');
+  execSync(`git --git-dir=${GITHUB_WORKSPACE} fetch`);
 
   // git switch
-  execSync(`git switch -c ${pagesBranch}`);
+  execSync(`git --git-dir=${GITHUB_WORKSPACE} switch -c ${pagesBranch}`);
 
-  execSync('git clean -f -d');
+  execSync(`git --git-dir=${GITHUB_WORKSPACE} clean -f -d`);
 
   // Do we need to rebase? The git commit history should be able to be wiped completely.
   // Let the user know that we will be wiping the branch.
@@ -160,14 +160,18 @@ const {
 
   const time = Date.now();
   try {
-    execSync(`git commit -m "Publishing docs for ${shortSha}"`);
+    execSync(
+      `git --git-dir=${GITHUB_WORKSPACE}commit -m "Publishing docs for ${shortSha}"`
+    );
   } catch (e: any) {
     const stdErrMsg = e.stderr.toString('utf-8');
     console.error('There was an error creating a new commit:', stdErrMsg);
   }
 
   process.exit(1);
-  execSync(`git push --set-upstream origin ${pagesBranch}`);
+  execSync(
+    `git --git-dir=${GITHUB_WORKSPACE} push --set-upstream origin ${pagesBranch}`
+  );
 
   const startTime = Date.now();
   const endTime = startTime + timeout * 1000;
