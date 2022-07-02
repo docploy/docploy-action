@@ -27,6 +27,7 @@ runs:
     - name: Push built docs to GitHub Pages branch
       run: |
         git fetch
+        echo ${{ inputs.pagesBranch }}
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
         git add .
