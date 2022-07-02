@@ -36,7 +36,7 @@ runs:
         echo ${{ inputs.pagesBranch }}
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
-        git rebase origin/${{ inputs.pagesBranch }}
+        git reset --hard origin/${{ inputs.pagesBranch }}
         SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-8)
         echo $GITHUB_SHA
         echo "short sha"
