@@ -11,6 +11,7 @@ inputs:
     description: 'Timeout for waiting until docs are generated, in seconds (default: 60)'
   pagesBranch:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
+    default: 'gh-pages'
 
 runs:
   using: 'composite'
