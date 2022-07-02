@@ -37,8 +37,10 @@ runs:
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
         SHORT_SHA=$(echo ${{ env.GITHUB_SHA }} | cut -c1-8)
+        echo ${{ env.GITHUB_SHA }}
+        echo "short sha"
         echo $SHORT_SHA
-        cp -r ${{ env.GITHUB_ACTION_PATH}}/out ./$SHORT_SHA }}
+        cp -r ${{ env.GITHUB_ACTION_PATH}}/out ./$SHORT_SHA
         git add .
         git commit -m "Publishing docs"
         git push origin ${{ inputs.pagesBranch }}
