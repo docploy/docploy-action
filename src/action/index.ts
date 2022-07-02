@@ -10,10 +10,6 @@ import fse from 'fs-extra';
 import path from 'path';
 import tempDir from 'temp-dir';
 
-const DEFAULTS = {
-  TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
-};
-
 const {
   CI,
   GITHUB_ACTION_PATH = './',
