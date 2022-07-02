@@ -9120,6 +9120,29 @@ var _a = process.env, CI = _a.CI, _b = _a.GITHUB_ACTION_PATH, GITHUB_ACTION_PATH
             console.log('conents of action docs', (0,external_child_process_namespaceObject.execSync)("ls -la ".concat(builtAssetsPath)).toString().trim());
             shortSha = GITHUB_SHA.substring(0, 7);
             console.log('shortSha', shortSha);
+            // const sourceDir = path.join(__dirname, '..', 'static', 'docs');
+            // const tempShaDir = path.join(tempDir, shortSha);
+            // try {
+            //   await fse.mkdirp(tempShaDir);
+            // } catch (e) {
+            //   console.error(e);
+            // }
+            // try {
+            //   await fse.copy(sourceDir, tempShaDir);
+            // } catch (e) {
+            //   console.error(e);
+            // }
+            // // Do we actually need this code, or were we using this as debugging code?
+            // try {
+            //   await fs.promises.readdir(tempShaDir);
+            // } catch (e) {
+            //   console.error(e);
+            // }
+            // console.log(execSync(`cd ${GITHUB_WORKSPACE}`).toString().trim());
+            // console.log(execSync(`cd /`).toString().trim());
+            console.log('github workspace', GITHUB_WORKSPACE);
+            console.log('pwd');
+            console.log((0,external_child_process_namespaceObject.execSync)("pwd").toString().trim());
             return [2 /*return*/];
         });
     });
