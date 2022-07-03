@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:action": "yarn run clean:action && yarn run ncc build -s src/action/index.ts && yarn run ncc build -s src/action/checkPagesDeploy.ts",
+    "build:action": "./scripts/build.sh",
     "build:next": "yarn run clean:next && yarn run next build && yarn run next export",
     "clean:action": "rm -rf dist/",
     "clean:next": "rm -rf out/",
