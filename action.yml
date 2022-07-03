@@ -19,15 +19,20 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    # - name: Find .git directory
-    #   run: ls -la
-    #   shell: bash
-    # - run: yarn && yarn next build && yarn next export
-    #   working-directory: ${{ github.action_path }}
-    #   shell: bash
-    - run: node dist/index.js
+    - name: Find .git directory
+      run: ls -la
+      shell: bash
+    - name: Build docs
+      run: |
+        yarn
+        yarn next build
+        yarn next export
+        ls -la $GITHUB_ACTION_PATH/out
       working-directory: ${{ github.action_path }}
       shell: bash
+    # - run: node dist/index.js
+    #   working-directory: ${{ github.action_path }}
+    #   shell: bash
     - name: Push built docs to GitHub Pages branch
       run: |
         git config --global user.email "${{ inputs.email }}"
@@ -46,6 +51,6 @@ runs:
         git commit -m "Publishing docs for $SHORT_SHA"
         git push origin ${{ inputs.pagesBranch }}
       shell: bash
-    - run: node dist/checkPagesDeploy.js
-      working-directory: ${{ github.action_path }}
-      shell: bash
+    # - run: node dist/checkPagesDeploy.js
+    #   working-directory: ${{ github.action_path }}
+    #   shell: bash
