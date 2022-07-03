@@ -17,7 +17,7 @@ inputs:
     default: 'gh-pages'
 
 runs:
-  using: 'node16'
+  using: 'composite'
   steps:
     - name: Find .git directory
       run: ls -la
