@@ -7211,6 +7211,7 @@ var _a = process.env.GITHUB_SHA, GITHUB_SHA = _a === void 0 ? '' : _a;
         var _this = this;
         return __generator(this, function (_a) {
             baseUrl = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('baseUrl');
+            console.log('here is the baseUrl', baseUrl);
             timeout = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('timeout')) || DEFAULTS.TIMEOUT;
             shortSha = GITHUB_SHA === null || GITHUB_SHA === void 0 ? void 0 : GITHUB_SHA.substring(0, 7);
             deployedDocsUrl = path__WEBPACK_IMPORTED_MODULE_2___default().join(baseUrl, shortSha);
