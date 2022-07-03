@@ -12,6 +12,8 @@ inputs:
   timeout:
     description: 'Timeout for waiting until docs are generated, in seconds (default: 60)'
     default: 120,
+  baseUrl:
+    description: 'The GitHub Pages base URL for your repo'
   pagesBranch:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
     default: 'gh-pages'
@@ -51,6 +53,6 @@ runs:
         git commit -m "Publishing docs for $SHORT_SHA"
         git push origin ${{ inputs.pagesBranch }}
       shell: bash
-    # - run: node dist/checkPagesDeploy.js
-    #   working-directory: ${{ github.action_path }}
-    #   shell: bash
+    - run: node dist/checkPagesDeploy.js
+      working-directory: ${{ github.action_path }}
+      shell: bash
