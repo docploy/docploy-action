@@ -7228,7 +7228,7 @@ var _a = process.env.GITHUB_SHA, GITHUB_SHA = _a === void 0 ? '' : _a;
                             return [3 /*break*/, 3];
                         case 2:
                             e_1 = _a.sent();
-                            console.log("Waiting for docs(".concat(deployedDocsUrl, ") to be deployed..."));
+                            console.log("aWaiting for docs(".concat(deployedDocsUrl, ") to be deployed..."));
                             return [3 /*break*/, 3];
                         case 3:
                             if (res && res.status === 200) {
