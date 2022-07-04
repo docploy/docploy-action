@@ -7,15 +7,14 @@ const DEFAULTS = {
   TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
 };
 
-const { GITHUB_SHA = '' } = process.env;
+const { GITHUB_SHA = '', BASE_URL = '' } = process.env;
 
 (async function () {
-  const baseUrl = core.getInput('baseUrl');
-  console.log('here is the baseUrl', baseUrl);
+  console.log('here is the baseUrl', BASE_URL);
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const shortSha = GITHUB_SHA?.substring(0, 7);
 
-  const deployedDocsUrl = path.join(baseUrl, shortSha);
+  const deployedDocsUrl = path.join(BASE_URL, shortSha);
   const startTime = Date.now();
   const endTime = startTime + timeout * 1000;
 
