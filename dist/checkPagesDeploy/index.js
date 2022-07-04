@@ -7160,8 +7160,6 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(6545);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(1017);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7200,7 +7198,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
-
 var DEFAULTS = {
     TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
 };
@@ -7210,10 +7207,9 @@ var _a = process.env, _b = _a.GITHUB_SHA, GITHUB_SHA = _b === void 0 ? '' : _b, 
         var timeout, shortSha, deployedDocsUrl, startTime, endTime, timer;
         var _this = this;
         return __generator(this, function (_a) {
-            console.log('here is the baseUrl', BASE_URL);
             timeout = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('timeout')) || DEFAULTS.TIMEOUT;
             shortSha = GITHUB_SHA === null || GITHUB_SHA === void 0 ? void 0 : GITHUB_SHA.substring(0, 7);
-            deployedDocsUrl = path__WEBPACK_IMPORTED_MODULE_2___default().join(BASE_URL, shortSha, '/');
+            deployedDocsUrl = new URL(shortSha, BASE_URL).toString();
             startTime = Date.now();
             endTime = startTime + timeout * 1000;
             timer = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -7228,11 +7224,11 @@ var _a = process.env, _b = _a.GITHUB_SHA, GITHUB_SHA = _b === void 0 ? '' : _b, 
                             return [3 /*break*/, 3];
                         case 2:
                             e_1 = _a.sent();
-                            console.log('Waiting for docs to be deployed to ', deployedDocsUrl);
+                            console.log('Waiting for docs to be deployed to:', deployedDocsUrl);
                             return [3 /*break*/, 3];
                         case 3:
                             if (res && res.status === 200) {
-                                console.log('We successfully deployed the docs on', deployedDocsUrl);
+                                console.log('We successfully deployed the docs on:', deployedDocsUrl);
                                 clearInterval(timer);
                                 return [2 /*return*/];
                             }

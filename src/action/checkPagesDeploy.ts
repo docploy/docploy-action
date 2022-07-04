@@ -1,7 +1,6 @@
 import * as core from '@actions/core';
 
 import axios from 'axios';
-import path from 'path';
 
 const DEFAULTS = {
   TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
@@ -10,11 +9,10 @@ const DEFAULTS = {
 const { GITHUB_SHA = '', BASE_URL = '' } = process.env;
 
 (async function () {
-  console.log('here is the baseUrl', BASE_URL);
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const shortSha = GITHUB_SHA?.substring(0, 7);
 
-  const deployedDocsUrl = path.join(BASE_URL, shortSha, '/');
+  const deployedDocsUrl = new URL(shortSha, BASE_URL).toString();
   const startTime = Date.now();
   const endTime = startTime + timeout * 1000;
 
@@ -24,12 +22,12 @@ const { GITHUB_SHA = '', BASE_URL = '' } = process.env;
 
     try {
       res = await axios.get(deployedDocsUrl);
-    } catch (e) {
-      console.log('Waiting for docs to be deployed to ', deployedDocsUrl);
+    } catch (e: any) {
+      console.log('Waiting for docs to be deployed to:', deployedDocsUrl);
     }
 
     if (res && res.status === 200) {
-      console.log('We successfully deployed the docs on', deployedDocsUrl);
+      console.log('We successfully deployed the docs on:', deployedDocsUrl);
       clearInterval(timer);
       return;
     }
