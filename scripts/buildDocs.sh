@@ -1,8 +1,11 @@
+# Run the following command to test locally
+#   GITHUB_WORKSPACE=$(pwd) DOCS_DIR=docs/ ./scripts/buildDocs.sh
+
 # Install npm dependencies
 yarn
 
 # Create a empty index.md file (if it does not already exist), so we can poll it
-if [ ! -f "./$DOCS_DIR/index.md" ] then
+if [ ! -f "./$DOCS_DIR/index.md" ]; then
   touch "./$DOCS_DIR/index.md"
 fi
 
@@ -11,6 +14,3 @@ yarn next build
 
 # Generate static assets for the docs
 yarn next export
-
-# Log out the contents of the generated docs folder (for debugging)
-ls -la $GITHUB_ACTION_PATH/out

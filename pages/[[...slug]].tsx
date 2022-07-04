@@ -13,6 +13,11 @@ import path from 'path';
 import { type NavTreeType } from '../src/types';
 import capitalize from 'src/utils/capitalize';
 
+const DEFAULTS = {
+  DOCS_DIR: '/docs',
+  GITHUB_WORKSPACE: './',
+};
+
 type Props = {
   content: string;
   navData: NavTreeType;
@@ -23,16 +28,22 @@ interface Params extends ParsedUrlQuery {
   slug: string[];
 }
 
-// // TODO: Use the docs path defined by the GitHub action
-// const baseDocsDir = path.join(process.cwd(), 'docs');
-
 function getDocsDir() {
-  const { DOCS_DIR = '', GITHUB_WORKSPACE = '' } = process.env;
+  const {
+    DOCS_DIR = DEFAULTS.DOCS_DIR,
+    GITHUB_WORKSPACE = DEFAULTS.GITHUB_WORKSPACE,
+  } = process.env;
   return path.join(GITHUB_WORKSPACE, DOCS_DIR);
 }
 
 function getSlugFromPath(relPath: string) {
-  const slug = relPath.replace('.md', '').split('/').slice(1);
+  let slug = relPath.replace('.md', '').split('/');
+
+  // ignore any beginning '/'s
+  if (slug[0] === '/') {
+    slug = slug.slice(1);
+  }
+
   const filename = slug[slug.length - 1];
 
   // remove index and only keep the directory name
@@ -98,7 +109,6 @@ async function getNavData() {
 
 function getPathFromSlug(slug: string[]) {
   const baseDocsDir = getDocsDir();
-  console.log('here is base docs dir', baseDocsDir);
   const relPath = slug.join('/');
   let fullPath = path.join(baseDocsDir, relPath);
   if (fs.existsSync(fullPath)) {
@@ -113,7 +123,6 @@ function getPathFromSlug(slug: string[]) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const baseDocsDir = getDocsDir();
-  console.log('here is base docs dir', baseDocsDir);
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
 
   const paths = docPaths.map((docPath: string) => {
