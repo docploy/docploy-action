@@ -42,7 +42,6 @@ runs:
         git config --global user.email "${{ inputs.email }}"
         git config --global user.name "${{ inputs.username }}"
         git fetch
-        echo ${{ inputs.pagesBranch }}
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
         git reset --hard origin/${{ inputs.pagesBranch }}
@@ -50,7 +49,8 @@ runs:
         echo $GITHUB_SHA
         echo "short sha"
         echo $SHORT_SHA
-        cp -r $GITHUB_ACTION_PATH/out ./$SHORT_SHA
+        if [ -d "./$SHORT_SHA" ]; then rm -rf ./$SHORT_SHA; fi
+        cp -r $GITHUB_ACTION_PATH/out/* ./$SHORT_SHA
         git add .
         git commit -m "Publishing docs for $SHORT_SHA"
         git push origin ${{ inputs.pagesBranch }}
