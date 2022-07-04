@@ -7213,7 +7213,7 @@ var _a = process.env, _b = _a.GITHUB_SHA, GITHUB_SHA = _b === void 0 ? '' : _b, 
             console.log('here is the baseUrl', BASE_URL);
             timeout = parseInt(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('timeout')) || DEFAULTS.TIMEOUT;
             shortSha = GITHUB_SHA === null || GITHUB_SHA === void 0 ? void 0 : GITHUB_SHA.substring(0, 7);
-            deployedDocsUrl = path__WEBPACK_IMPORTED_MODULE_2___default().join(BASE_URL, shortSha);
+            deployedDocsUrl = path__WEBPACK_IMPORTED_MODULE_2___default().join(BASE_URL, shortSha, '/');
             startTime = Date.now();
             endTime = startTime + timeout * 1000;
             timer = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {

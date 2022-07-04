@@ -14,7 +14,7 @@ const { GITHUB_SHA = '', BASE_URL = '' } = process.env;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const shortSha = GITHUB_SHA?.substring(0, 7);
 
-  const deployedDocsUrl = path.join(BASE_URL, shortSha);
+  const deployedDocsUrl = path.join(BASE_URL, shortSha, '/');
   const startTime = Date.now();
   const endTime = startTime + timeout * 1000;
 
