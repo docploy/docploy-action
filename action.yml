@@ -21,9 +21,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Find .git directory
-      run: ls -la
-      shell: bash
     - name: Build docs
       run: |
         yarn
