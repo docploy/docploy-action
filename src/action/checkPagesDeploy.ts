@@ -25,7 +25,7 @@ const { GITHUB_SHA = '', BASE_URL = '' } = process.env;
     try {
       res = await axios.get(deployedDocsUrl);
     } catch (e) {
-      console.log(`aWaiting for docs(${deployedDocsUrl}) to be deployed...`);
+      console.log('Waiting for docs to be deployed to ', deployedDocsUrl);
     }
 
     if (res && res.status === 200) {
