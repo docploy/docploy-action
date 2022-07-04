@@ -23,8 +23,13 @@ interface Params extends ParsedUrlQuery {
   slug: string[];
 }
 
-// TODO: Use the docs path defined by the GitHub action
-const baseDocsDir = path.join(process.cwd(), 'docs');
+// // TODO: Use the docs path defined by the GitHub action
+// const baseDocsDir = path.join(process.cwd(), 'docs');
+
+function getDocsDir() {
+  const { DOCS_DIR = '', GITHUB_WORKSPACE = '' } = process.env;
+  return path.join(GITHUB_WORKSPACE, DOCS_DIR);
+}
 
 function getSlugFromPath(relPath: string) {
   const slug = relPath.replace('.md', '').split('/').slice(1);
@@ -47,6 +52,7 @@ function getTitleFromToken(str: string) {
 }
 
 async function getNavData() {
+  const baseDocsDir = getDocsDir();
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
   const navTree = {
     path: '/',
@@ -91,6 +97,8 @@ async function getNavData() {
 }
 
 function getPathFromSlug(slug: string[]) {
+  const baseDocsDir = getDocsDir();
+  console.log('here is base docs dir', baseDocsDir);
   const relPath = slug.join('/');
   let fullPath = path.join(baseDocsDir, relPath);
   if (fs.existsSync(fullPath)) {
@@ -104,6 +112,8 @@ function getPathFromSlug(slug: string[]) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const baseDocsDir = getDocsDir();
+  console.log('here is base docs dir', baseDocsDir);
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
 
   const paths = docPaths.map((docPath: string) => {
