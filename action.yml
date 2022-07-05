@@ -55,6 +55,7 @@ runs:
           rm -rf ./$SHORT_SHA
         fi
         mkdir ./$SHORT_SHA
+        mv $GITHUB_ACTION_PATH/out/_next $GITHUB_ACTION_PATH/out/next
         cp -r $GITHUB_ACTION_PATH/out/* ./$SHORT_SHA
         git add .
         git commit -m "Publishing docs for $SHORT_SHA"
