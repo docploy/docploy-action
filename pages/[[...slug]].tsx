@@ -126,10 +126,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
 
   const paths = docPaths.map((docPath: string) => {
+    console.log('docPath', docPath);
     const relPath = docPath.substring(baseDocsDir.length);
     const slug = getSlugFromPath(relPath);
     return { params: { slug } };
   });
+
+  console.log('getStaticPaths paths', paths);
 
   return { paths, fallback: false };
 };
