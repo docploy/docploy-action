@@ -53,8 +53,8 @@ runs:
         echo $SHORT_SHA
         if [ -d "./$SHORT_SHA" ]; then
           rm -rf ./$SHORT_SHA
-          mkdir ./$SHORT_SHA
         fi
+        mkdir ./$SHORT_SHA
         cp -r $GITHUB_ACTION_PATH/out/* ./$SHORT_SHA
         git add .
         git commit -m "Publishing docs for $SHORT_SHA"
