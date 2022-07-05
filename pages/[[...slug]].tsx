@@ -33,16 +33,16 @@ function getDocsDir() {
     DOCS_DIR = DEFAULTS.DOCS_DIR,
     GITHUB_WORKSPACE = DEFAULTS.GITHUB_WORKSPACE,
   } = process.env;
+  let docsDir = DOCS_DIR;
+  // Normalize docs dir with a trailing slash at the end
+  if (!docsDir.endsWith('/')) {
+    docsDir += '/';
+  }
   return path.join(GITHUB_WORKSPACE, DOCS_DIR);
 }
 
 function getSlugFromPath(relPath: string) {
   let slug = relPath.replace('.md', '').split('/');
-
-  // ignore any beginning '/'s
-  if (slug[0] === '/') {
-    slug = slug.slice(1);
-  }
 
   const filename = slug[slug.length - 1];
 
