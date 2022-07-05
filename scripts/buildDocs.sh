@@ -9,8 +9,8 @@ if [ ! -f "${GITHUB_WORKSPACE}/$DOCS_DIR/index.md" ]; then
   touch "${GITHUB_WORKSPACE}/$DOCS_DIR/index.md"
 fi
 
-# # Generate the docs
-# yarn next build
+# Generate the docs
+yarn next build
 
-# # Generate static assets for the docs
-# yarn next export
+# Generate static assets for the docs
+yarn next export
