@@ -21,8 +21,4 @@ mv out/_next out/next
 
 # Find and replace all references of _next/ to next/ in all of the assets
 # Note, using sed -i '' will only work on Mac, so remove -i '' to support Ubuntu
-echo "Add debugging statements"
-pwd
-ls -la
-find out -type f -name "*.html" -print0
-find out -type f -name "*.html" -print0 | xargs -0 sed -e 's/_next/next/g'
+find out -type f -name "*.html" -print0 | xargs -0 sed -i 's/_next/next/g'
