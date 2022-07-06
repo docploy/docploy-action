@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 
 import axios from 'axios';
+import { getDocsUrl } from 'src/utils/url';
 
 const DEFAULTS = {
   TIMEOUT: 120, // 2 minutes is recommended because GitHub pages can take 1+ minute to deploy
@@ -12,7 +13,7 @@ const { GITHUB_SHA = '', BASE_URL = '' } = process.env;
   const timeout = parseInt(core.getInput('timeout')) || DEFAULTS.TIMEOUT;
   const shortSha = GITHUB_SHA?.substring(0, 7);
 
-  const deployedDocsUrl = new URL(shortSha, BASE_URL).toString();
+  const deployedDocsUrl = getDocsUrl();
   const startTime = Date.now();
   const endTime = startTime + timeout * 1000;
 
