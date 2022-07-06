@@ -88,9 +88,9 @@ async function getNavData() {
         currentBranch = match;
       } else {
         // different behavior for leaf nodes
-        const isLeaf = i === slug.length - 1;
+        const fullBaseUrl = process.env.FULL_BASE_URL;
         const newNode: NavTreeType = {
-          path: '/' + slug.slice(0, i + 1).join('/'),
+          path: fullBaseUrl + '/' + slug.slice(0, i + 1).join('/') + '.html',
           token,
           name: getTitleFromToken(token),
           children: [],

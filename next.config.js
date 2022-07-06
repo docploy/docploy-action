@@ -1,18 +1,14 @@
+const { getDocsUrl } = require('./src/utils/url');
 const { CI } = process.env;
-
-// Keep file in sync with src/utils/url
-function getDocsUrl() {
-  const { BASE_URL, GITHUB_SHA } = process.env;
-  console.log('base url', BASE_URL);
-  console.log('github sha', GITHUB_SHA);
-  const shortSha = GITHUB_SHA?.substring(0, 7) || '';
-  const docsUrl = new URL(shortSha, BASE_URL).toString();
-  return docsUrl;
-}
 
 const docsUrl = getDocsUrl();
 
+// We cannot use basePath because it only accepts relative urls,
+// and we need to use absolute urls to support GitHub Pages
+// Going forward, we should be using the `FULL_BASE_URL`.
 module.exports = {
   assetPrefix: CI ? docsUrl : '/',
-  baseUrl: CI ? docsUrl : '/',
+  env: {
+    FULL_BASE_URL: CI ? docsUrl : '/',
+  },
 };
