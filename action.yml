@@ -24,6 +24,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Run tests
+      run: ./scripts/runTests.sh
+      shell: bash
+      env:
+        DOCS_DIR: ${{ inputs.docsDir }}
     - name: Build docs
       run: ./scripts/buildDocs.sh
       working-directory: ${{ github.action_path }}
@@ -31,11 +36,7 @@ runs:
       env:
         BASE_URL: ${{ inputs.baseUrl }}
         DOCS_DIR: ${{ inputs.docsDir }}
-    - name: Run tests
-      run: ./scripts/runTests.sh
-      shell: bash
-      env:
-        DOCS_DIR: ${{ inputs.docsDir }}
+
     # - name: Push built docs to GitHub Pages branch
     #   run: |
     #     git config --global user.email "${{ inputs.email }}"
