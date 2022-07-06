@@ -33,6 +33,7 @@ runs:
         DOCS_DIR: ${{ inputs.docsDir }}
     - name: Run tests
       run: ./scripts/runTests.sh
+      shell: bash
       env:
         DOCS_DIR: ${{ inputs.docsDir }}
     - name: Push built docs to GitHub Pages branch
