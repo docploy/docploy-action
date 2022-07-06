@@ -31,6 +31,10 @@ runs:
       env:
         BASE_URL: ${{ inputs.baseUrl }}
         DOCS_DIR: ${{ inputs.docsDir }}
+    - name: Run tests
+      run: ./scripts/runTests.sh
+      env:
+        DOCS_DIR: ${{ inputs.docsDir }}
     - name: Push built docs to GitHub Pages branch
       run: |
         git config --global user.email "${{ inputs.email }}"
