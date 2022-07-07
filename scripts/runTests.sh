@@ -3,7 +3,7 @@
 
 echo "docs dir"
 echo ${GITHUB_WORKSPACE}/$DOCS_DIR
-yarn jest ${GITHUB_WORKSPACE}/$DOCS_DIR
+yarn jest --verbose --rootDir=${GITHUB_WORKSPACE}/$DOCS_DIR
 echo "in between"
 
 # Used for debugging
