@@ -29,8 +29,9 @@ export const snippet: Schema = {
     };
     const { path } = attributes;
 
-    // TODO: switch this out to use the GH actions docs path
-    const baseDocsDir = pathPkg.join(process.cwd(), '..', 'docs');
+    const { GITHUB_WORKSPACE = '', DOCS_DIR = '' } = process.env;
+
+    const baseDocsDir = pathPkg.join(GITHUB_WORKSPACE, DOCS_DIR);
     const fullPath = pathPkg.join(baseDocsDir, path);
     console.log('fullPath', fullPath);
 

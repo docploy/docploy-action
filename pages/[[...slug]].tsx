@@ -103,7 +103,6 @@ async function getNavData() {
     // reset pointer to root
     currentBranch = navTree;
   }
-
   return navTree;
 }
 
@@ -126,15 +125,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
 
   const paths = docPaths.map((docPath: string) => {
-    console.log('docPath', docPath);
     const relPath = docPath.substring(baseDocsDir.length);
-    console.log('relPath', relPath);
     const slug = getSlugFromPath(relPath);
-    console.log('slug', slug);
     return { params: { slug } };
   });
-
-  console.log('getStaticPaths paths', JSON.stringify(paths));
 
   return { paths, fallback: false };
 };
