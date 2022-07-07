@@ -1,5 +1,4 @@
 const { getDocsUrl } = require('./src/utils/url');
-const { CI } = process.env;
 
 const docsUrl = getDocsUrl();
 
@@ -7,8 +6,8 @@ const docsUrl = getDocsUrl();
 // and we need to use absolute urls to support GitHub Pages
 // Going forward, we should be using the `FULL_BASE_URL`.
 module.exports = {
-  assetPrefix: CI ? docsUrl : '/',
+  assetPrefix: docsUrl,
   env: {
-    FULL_BASE_URL: CI ? docsUrl : '/',
+    FULL_BASE_URL: docsUrl,
   },
 };

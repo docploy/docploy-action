@@ -2,6 +2,7 @@ import type { RenderableTreeNode, Schema } from '@markdoc/markdoc';
 
 import { Tag } from '@markdoc/markdoc';
 import detect from 'language-detect';
+import { getDocsDir } from 'src/utils/helpers';
 import lineByLine from 'n-readlines';
 import pathPkg from 'path';
 
@@ -29,11 +30,8 @@ export const snippet: Schema = {
     };
     const { path } = attributes;
 
-    const { GITHUB_WORKSPACE = '', DOCS_DIR = '' } = process.env;
-
-    const baseDocsDir = pathPkg.join(GITHUB_WORKSPACE, DOCS_DIR);
+    const baseDocsDir = getDocsDir();
     const fullPath = pathPkg.join(baseDocsDir, path);
-    console.log('fullPath', fullPath);
 
     attributes.language = detect.sync(fullPath).toLowerCase();
 

@@ -12,11 +12,7 @@ import glob from 'glob-promise';
 import path from 'path';
 import { type NavTreeType } from '../src/types';
 import capitalize from 'src/utils/capitalize';
-
-const DEFAULTS = {
-  DOCS_DIR: '/docs',
-  GITHUB_WORKSPACE: './',
-};
+import { getDocsDir } from 'src/utils/helpers';
 
 type Props = {
   content: string;
@@ -26,19 +22,6 @@ type Props = {
 interface Params extends ParsedUrlQuery {
   docPath: string;
   slug: string[];
-}
-
-function getDocsDir() {
-  const {
-    DOCS_DIR = DEFAULTS.DOCS_DIR,
-    GITHUB_WORKSPACE = DEFAULTS.GITHUB_WORKSPACE,
-  } = process.env;
-  let docsDir = DOCS_DIR;
-  // Normalize docs dir with a trailing slash at the end
-  if (!docsDir.endsWith('/')) {
-    docsDir += '/';
-  }
-  return path.join(GITHUB_WORKSPACE, DOCS_DIR);
 }
 
 function getSlugFromPath(relPath: string) {
@@ -60,6 +43,22 @@ function getTitleFromToken(str: string) {
     return capitalize(word);
   });
   return capitalizedSplit.join(' ');
+}
+
+function getNavTreePath(slug: string[], level: number) {
+  const { CI } = process.env;
+
+  // We cannot destructure Next env vars because they are statically injected
+  const fullBaseUrl = process.env.FULL_BASE_URL;
+
+  let navTreePath = fullBaseUrl + '/' + slug.slice(0, level + 1).join('/');
+
+  // In CI, we build the docs as .html files, so we need to append .html to the end
+  // of the filename
+  if (CI) {
+    navTreePath += '.html';
+  }
+  return navTreePath;
 }
 
 async function getNavData() {
@@ -87,10 +86,8 @@ async function getNavData() {
       if (match) {
         currentBranch = match;
       } else {
-        // different behavior for leaf nodes
-        const fullBaseUrl = process.env.FULL_BASE_URL;
         const newNode: NavTreeType = {
-          path: fullBaseUrl + '/' + slug.slice(0, i + 1).join('/') + '.html',
+          path: getNavTreePath(slug, i),
           token,
           name: getTitleFromToken(token),
           children: [],
@@ -103,6 +100,7 @@ async function getNavData() {
     // reset pointer to root
     currentBranch = navTree;
   }
+  console.log('navTree', JSON.stringify(navTree));
   return navTree;
 }
 
@@ -126,9 +124,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const paths = docPaths.map((docPath: string) => {
     const relPath = docPath.substring(baseDocsDir.length);
+    console.log('relPath', relPath);
     const slug = getSlugFromPath(relPath);
+    console.log('slug', slug);
     return { params: { slug } };
   });
+
+  console.log('getStaticPaths.paths', JSON.stringify(paths));
 
   return { paths, fallback: false };
 };
