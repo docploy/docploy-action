@@ -1,17 +1,16 @@
-import * as core from '@actions/core';
-import * as exec from '@actions/exec';
-import * as github from '@actions/github';
+// import * as core from '@actions/core';
+// import * as exec from '@actions/exec';
+// import * as github from '@actions/github';
 
-import axios from 'axios';
-import { buildHtml } from 'src/action/markdown';
+// import axios from 'axios';
+// import { buildHtml } from 'src/action/markdown';
 import { execSync } from 'child_process';
-import fs from 'fs';
-import fse from 'fs-extra';
+// import fs from 'fs';
+// import fse from 'fs-extra';
 import path from 'path';
-import tempDir from 'temp-dir';
+// import tempDir from 'temp-dir';
 
 const {
-  CI,
   GITHUB_ACTION_PATH = './',
   GITHUB_SHA,
   GITHUB_WORKSPACE = '',
@@ -22,19 +21,6 @@ const {
     console.error('Unable to find a GITHUB_SHA');
     process.exit(1);
   }
-  const username = core.getInput('username');
-  const email = core.getInput('email');
-  const timeout = parseInt(core.getInput('timeout'));
-  const pagesBranch = core.getInput('pagesBranch');
-
-  const context = github.context;
-  const {
-    repo: { owner, repo },
-  } = context;
-
-  // TODO: Add support for non-GitHub Pages URLs
-  const docsRootUrl = `https://${owner}.github.io/${repo}`;
-
   // generate all of the markdown docs to static html files
   // const mdPath = path.resolve(__dirname, '..', 'docs');
   // const writePath = path.resolve(__dirname, '..', 'static', 'docs');
