@@ -1,7 +1,7 @@
 import 'prismjs/themes/prism-okaidia.css';
-import 'prismjs';
 
 import Prism from 'react-prism';
+import prismjs from 'prismjs';
 
 type Props = {
   children: React.ReactNode;
@@ -9,14 +9,16 @@ type Props = {
 };
 
 function Snippet({ children, language }: Props) {
+  const html = prismjs.highlight(
+    children,
+    prismjs.languages[language],
+    language
+  );
   return (
-    <Prism
-      key={language}
-      component="pre"
+    <pre
       className={`language-${language} rounded-md`}
-    >
-      {children}
-    </Prism>
+      dangerouslySetInnerHTML={{ __html: html }}
+    ></pre>
   );
 }
 
