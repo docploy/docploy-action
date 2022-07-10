@@ -11,11 +11,20 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/utils/url.js",
+    "next.config.js",
+    "src/utils/url.js"
+  ],
   "exclude": ["node_modules"]
 }
