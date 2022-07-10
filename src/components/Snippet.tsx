@@ -1,10 +1,9 @@
 import 'prismjs/themes/prism-okaidia.css';
 
-import Prism from 'react-prism';
 import prismjs from 'prismjs';
 
 type Props = {
-  children: React.ReactNode;
+  children: string;
   language: string;
 };
 
