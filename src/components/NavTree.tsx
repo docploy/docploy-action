@@ -6,6 +6,8 @@ function NavTree({ navData }: { navData: NavTreeType }) {
   const router = useRouter();
   const { children: sections } = navData;
 
+  console.log(router.asPath);
+
   return (
     <div className="mb-16">
       {sections.map((section) => {
