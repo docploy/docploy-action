@@ -7,7 +7,6 @@
     "clean:action": "rm -rf dist/",
     "clean:next": "rm -rf out/",
     "run:action": "yarn run build:action && node dist/index.js",
-    "serve": "NODE_ENV=development yarn run serve out",
     "start": "next start",
     "lint": "next lint",
     "test": "jest"
