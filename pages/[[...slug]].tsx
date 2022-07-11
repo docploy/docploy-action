@@ -46,18 +46,12 @@ function getTitleFromToken(str: string) {
 }
 
 function getNavTreePath(slug: string[], level: number) {
-  const { CI } = process.env;
-
   // We cannot destructure Next env vars because they are statically injected
   const fullBaseUrl = process.env.FULL_BASE_URL;
 
-  let navTreePath = fullBaseUrl + '/' + slug.slice(0, level + 1).join('/');
+  const navTreePath =
+    fullBaseUrl + '/' + slug.slice(0, level + 1).join('/') + '.html';
 
-  // In CI, we build the docs as .html files, so we need to append .html to the end
-  // of the filename
-  if (CI) {
-    navTreePath += '.html';
-  }
   return navTreePath;
 }
 
