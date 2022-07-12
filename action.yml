@@ -19,6 +19,10 @@ inputs:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
     default: 'gh-pages'
 
+branding:
+  icon: 'book-open'
+  color: 'yellow'
+
 runs:
   using: 'composite'
   steps:
