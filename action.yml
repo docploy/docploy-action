@@ -1,8 +1,6 @@
 name: 'Publish docs to GitHub Pages'
 description: 'Action that publishes docs to the ghpages branch'
 inputs:
-  token:
-    description: 'The GITHUB_TOKEN secret'
   username:
     description: 'Username for doc generation commits'
     default: 'docs-bot'
