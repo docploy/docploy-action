@@ -3,10 +3,10 @@ description: 'Action that publishes docs to the ghpages branch'
 inputs:
   username:
     description: 'Username for doc generation commits'
-    default: 'docs-bot'
+    default: 'docploy'
   email:
     description: 'Email for doc generation commits'
-    default: 'docs-bot@github.com'
+    default: 'docploy@github.com'
   timeout:
     description: 'Timeout for waiting until docs are generated, in seconds (default: 60)'
     default: 120,
@@ -14,7 +14,7 @@ inputs:
     description: 'The GitHub Pages base URL for your repo'
   docsDir:
     description: 'Path to the docs dir'
-    default: 'docs/'
+    default: 'docs'
   pagesBranch:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
     default: 'gh-pages'
