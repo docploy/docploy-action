@@ -8,8 +8,27 @@ Traditionally, there are no checks to guarantee that documentation stays up to d
 
 ## Set up GitHub Pages
 
-TBD
+1. Go to your repo's **Settings** page
+2. Click on **Pages** in the left sidebar
+3. Under **Source**, select the **gh-pages** branch (this is recommended, but you can select another branch), and click **Save**
+
+_Note: this action will overwrite the contents in the branch you select!_
 
 ## Add action to your workflow
 
-TBD
+Add a new job to your GitHub workflow yml file located at `.github/workflows/main.yml`
+
+```
+on: [push]
+
+jobs:
+  publish_docs:
+    name: Publish docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish docs
+        uses: docploy/docploy-action@{version}
+        with:
+          baseUrl: 'https://{username}.github.io/{repo}/'
+          docsDir: 'docs'
+```
