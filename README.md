@@ -16,7 +16,7 @@ _Note: this action will overwrite the contents in the branch you select!_
 
 ## Add action to your workflow
 
-Add a new job to your GitHub workflow yml file located at `.github/workflows/main.yml`
+You can add a new job to your GitHub workflow yml file located at `.github/workflows/main.yml`
 
 ```
 on: [push]
@@ -31,4 +31,26 @@ jobs:
         with:
           baseUrl: 'https://{username}.github.io/{repo}/'
           docsDir: 'docs'
+```
+
+# Testing Doc Snippets
+
+## Javascript
+
+You can use Jest in your GitHub workflow to test your doc snippets.
+Add the following job to your GitHub workflow yml file located at `.github/workflows/main.yml`
+
+It is a best practice to run the testing job as a separate job from the deploy job to parallelize the two jobs, so they can finish quicker.
+
+```
+jobs:
+  ...
+  test_docs:
+    name: Test docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          yarn install
+          yarn run jest docs
 ```
