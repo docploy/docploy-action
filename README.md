@@ -61,7 +61,7 @@ function snippet() {
 export default snippet;
 ```
 
-The test file, `example.test.js` is located at `docs/example.test.js`:
+The test file, `example.test.js`, uses the Jest testing framework for Javascript, and it is located at `docs/example.test.js`:
 
 ```
 import example from './example';
