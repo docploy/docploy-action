@@ -33,11 +33,55 @@ jobs:
           docsDir: 'docs'
 ```
 
-# Testing Doc Snippets
+# Testing Your Docs
+
+You can use a `<% snippet path={path} %>` tag to import a code snippet into your docs during build time.
+
+The `path` attribute is the location to your code snippet relative to the `docsDir` that you specified as part of the job metadata.
+
+The advantage of using a `<% snippet %>` tag, instead of embedding the code into the Markdown file, is you can import any dependencies from the file and you can run your chosen testing framework on the file.
+
+## Example
+
+This `docs/example.md` file will render the code from the `example.js` file:
+
+```
+# Code snippet
+
+{% snippet path="example.js" /%}
+```
+
+The `example.js` file is located at `docs/example.js`:
+
+```
+function snippet() {
+  return 1 + 1;
+}
+
+export default snippet;
+```
+
+The test file, `example.test.js` is located at `docs/example.test.js`:
+
+```
+import example from './example';
+
+describe('example', () => {
+  it('should return 2', () => {
+    const result = example();
+    expect(result).toBe(2);
+  });
+});
+
+```
+
+# Running Your Tests
+
+You should run your doc tests on every new pull request that modifies your docs. This will guarantee your docs will always be up to date.
 
 ## Javascript
 
-You can use Jest in your GitHub workflow to test your doc snippets.
+You can run Jest as part of your GitHub workflow to test your doc snippets.
 Add the following job to your GitHub workflow yml file located at `.github/workflows/main.yml`
 
 It is a best practice to run the testing job as a separate job from the deploy job to parallelize the two jobs, so they can finish quicker.
