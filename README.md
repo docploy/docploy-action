@@ -33,6 +33,18 @@ jobs:
           docsDir: 'docs'
 ```
 
+# Usage
+
+You should write all documentation as Markdown files (with file extension `.md`) inside of the `docsDir` path defined in your GitHub Action's job metadata.
+
+When the Docploy GitHub Action runs, the output will contain a link to the preview documentation site:
+
+```
+Waiting for docs to be deployed to: https://{username}.github.io/{repo}/e6c2d5b
+Waiting for docs to be deployed to: https://{username}.github.io/{repo}/e6c2d5b
+We successfully deployed the docs on: https://{username}.github.io/{repo}/e6c2d5b
+```
+
 # Testing Your Docs
 
 You can use a `<% snippet path={path} %>` tag to import a code snippet into your docs during build time.
