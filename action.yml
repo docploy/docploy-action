@@ -1,6 +1,8 @@
 name: 'Publish docs to GitHub Pages'
 description: 'Action that publishes docs to the ghpages branch'
 inputs:
+  githubToken:
+    description: GitHub token
   username:
     description: 'Username for doc generation commits'
     default: 'docploy'
