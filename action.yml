@@ -67,4 +67,4 @@ runs:
       shell: bash
       env:
         BASE_URL: ${{ inputs.baseUrl }}
-        TEST: ${{ inputs.test }}
+        GITHUB_TOKEN: ${{ inputs.githubToken }}

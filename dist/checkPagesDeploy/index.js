@@ -14913,7 +14913,7 @@ function sendStatusMessage(status, docsUrl) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('githubToken');
+                    token = process.env.GITHUB_TOKEN || '';
                     console.log('here is the token first 4', token.slice(0, 3));
                     test = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('test');
                     console.log('test input', test);

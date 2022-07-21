@@ -10,7 +10,7 @@ const DEFAULTS = {
 
 // Send the deploy status as a comment to the pull request
 async function sendStatusMessage(status: 'pass' | 'fail', docsUrl?: string) {
-  const token = core.getInput('githubToken');
+  const token = process.env.GITHUB_TOKEN || '';
   console.log('here is the token first 4', token.slice(0, 3));
   const test = core.getInput('test');
   console.log('test input', test);
