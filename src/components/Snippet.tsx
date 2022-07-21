@@ -15,7 +15,7 @@ function Snippet({ children, language }: Props) {
   );
   return (
     <pre
-      className={`language-${language} rounded-md`}
+      className={`language-${language} rounded-md !text-sm !p-4`}
       dangerouslySetInnerHTML={{ __html: html }}
     ></pre>
   );
