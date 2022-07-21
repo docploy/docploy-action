@@ -49,9 +49,6 @@ runs:
         git clean -f -d
         git reset --hard origin/${{ inputs.pagesBranch }}
         SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
-        echo $GITHUB_SHA
-        echo "short sha"
-        echo $SHORT_SHA
         if [ -d "./$SHORT_SHA" ]; then
           rm -rf ./$SHORT_SHA
         fi
