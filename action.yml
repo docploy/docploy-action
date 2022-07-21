@@ -20,6 +20,8 @@ inputs:
   pagesBranch:
     description: 'The branch set up to serve Github Pages (default: gh-pages)'
     default: 'gh-pages'
+  test:
+    description: 'Only a test'
 
 branding:
   icon: 'book-open'

@@ -12,6 +12,8 @@ const DEFAULTS = {
 async function sendStatusMessage(status: 'pass' | 'fail', docsUrl?: string) {
   const token = core.getInput('githubToken');
   console.log('here is the token first 4', token.slice(0, 3));
+  const test = core.getInput('test');
+  console.log('test input', test);
   const context = github.context;
   let message;
 
