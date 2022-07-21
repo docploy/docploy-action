@@ -14,6 +14,8 @@ async function sendStatusMessage(status: 'pass' | 'fail', docsUrl?: string) {
   console.log('here is the token first 4', token.slice(0, 3));
   const test = core.getInput('test');
   console.log('test input', test);
+  console.log('test input 2', process.env.TEST);
+
   const context = github.context;
   let message;
 

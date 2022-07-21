@@ -14917,6 +14917,7 @@ function sendStatusMessage(status, docsUrl) {
                     console.log('here is the token first 4', token.slice(0, 3));
                     test = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('test');
                     console.log('test input', test);
+                    console.log('test input 2', process.env.TEST);
                     context = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context;
                     if (status === 'pass') {
                         message = 'Your docs were successfuly deployed to: ' + docsUrl;
