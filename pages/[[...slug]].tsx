@@ -49,8 +49,7 @@ function getNavTreePath(slug: string[], level: number) {
   // We cannot destructure Next env vars because they are statically injected
   const fullBaseUrl = process.env.FULL_BASE_URL;
 
-  const navTreePath =
-    fullBaseUrl + '/' + slug.slice(0, level + 1).join('/') + '.html';
+  const navTreePath = fullBaseUrl + '/' + slug.slice(0, level + 1).join('/');
 
   return navTreePath;
 }
@@ -151,18 +150,26 @@ const Home: NextPage<Props> = (props) => {
   const parsedContent = JSON.parse(content);
 
   return (
-    <div className="flex">
-      <div className="basis-72">
-        <div className="h-screen p-8 overflow-y-auto">
-          <NavTree navData={navData} />
+    <div className="flex flex-col m-auto p-8 max-w-7xl">
+      <div className="flex">
+        <div className="basis-72">
+          <div className="h-screen p-8 overflow-y-auto">
+            <NavTree navData={navData} />
+          </div>
+        </div>
+        <div className="basis-0 grow p-16">
+          <div className="max-w-3xl">
+            {Markdoc.renderers.react(parsedContent, React, {
+              components,
+            })}
+          </div>
         </div>
       </div>
-      <div className="basis-0 grow p-16">
-        <div className="max-w-3xl">
-          {Markdoc.renderers.react(parsedContent, React, {
-            components,
-          })}
-        </div>
+      <div className="text-center">
+        Made with{' '}
+        <a href="https://docploy.com" className="font-bold text-blue-400">
+          Docploy
+        </a>
       </div>
     </div>
   );
