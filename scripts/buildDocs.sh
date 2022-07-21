@@ -1,5 +1,3 @@
-# Run the following command to test locally
-#   BASE_URL=https://github.com CI=true GITHUB_SHA=abcdef GITHUB_WORKSPACE=$(pwd) DOCS_DIR=docs/ ./scripts/buildDocs.sh
 set -e
 
 # Export the environment variables from .env
