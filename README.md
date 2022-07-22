@@ -15,7 +15,7 @@ How many extra hours has your pull request been blocked because of a style issue
 You can add a new job to your GitHub workflow yml file located at `.github/workflows/main.yml`
 
 ```
-on: [push]
+on: [pull_request]
 
 jobs:
   publish_docs:
@@ -32,11 +32,26 @@ jobs:
 
 **_Note: this config will overwrite all files in your repo's pagesBranch_**
 
-## 2. Set up GitHub Pages
+## 2. Create a new branch
+
+1. Go to your repo's branches at: https://github.com/{org}/{repo}/branches
+2. Click **New branch**
+3. Enter **gh-pages** (or another branch name) for the **Branch name**
+4. Click on **Create branch** to create the new branch
+
+## 3. Set up GitHub Pages
 
 1. Go to your repo's **Settings** page
 2. Click on **Pages** in the left sidebar
 3. Under **Source**, select the **gh-pages** branch (or branch that you defined as `pagesBranch` in the action inputs), and click **Save**
+
+## 4. Run the workflow
+
+Create a new pull request to trigger the workflow.
+
+# Example
+
+See this [example repo](https://github.com/docploy/example)
 
 # Usage
 
