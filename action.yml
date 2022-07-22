@@ -49,7 +49,8 @@ runs:
         git fetch
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
-        if [ `git branch --list ${{ inputs.pagesBranch }}` ]; then
+        is_branch_in_remote=$(git ls-remote --heads origin ${{ inputs.pagesBranch}})
+        if [[ ! -z ${is_branch_in_remote} ]]; then
           git reset --hard origin/${{ inputs.pagesBranch }}
         fi
         SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
