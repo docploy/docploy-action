@@ -1,3 +1,10 @@
+# Change the working directory to the workspace folder
+echo "changing workspace"
+ls -la
+cd ${GITHUB_WORKSPACE}
+ls -la
+
+
 # Set up git metadata
 git config --global user.email "${{ inputs.email }}"
 git config --global user.name "${{ inputs.username }}"
