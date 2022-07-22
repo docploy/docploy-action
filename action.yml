@@ -49,7 +49,9 @@ runs:
         git fetch
         git switch -c ${{ inputs.pagesBranch }}
         git clean -f -d
-        git reset --hard origin/${{ inputs.pagesBranch }}
+        if [ `git branch --list ${{ inputs.pagesBranch }}` ]; then
+          git reset --hard origin/${{ inputs.pagesBranch }}
+        fi
         SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
         if [ -d "./$SHORT_SHA" ]; then
           rm -rf ./$SHORT_SHA
