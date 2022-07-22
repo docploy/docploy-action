@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import path from 'path';
 import { type NavTreeType } from 'src/types';
 
 function NavTree({ navData }: { navData: NavTreeType }) {
