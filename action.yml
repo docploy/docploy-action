@@ -59,6 +59,9 @@ runs:
         fi
         mkdir ./$SHORT_SHA
         cp -r $GITHUB_ACTION_PATH/out/* ./$SHORT_SHA
+        if [ ! -f "./.nojekyll" ]; then
+          touch "./.nojekyll"
+        fi
         git add .
         git commit -m "Publishing docs for $SHORT_SHA"
         git push origin ${{ inputs.pagesBranch }}
