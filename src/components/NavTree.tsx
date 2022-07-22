@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import path from 'path';
 import { type NavTreeType } from 'src/types';
 
 function NavTree({ navData }: { navData: NavTreeType }) {
@@ -20,6 +21,8 @@ function NavTree({ navData }: { navData: NavTreeType }) {
                 }
                 return (
                   <li key={page.token}>
+                    <span>{router.asPath}</span>
+                    <span>{page.path}</span>
                     <Link href={page.path}>
                       <a className={linkClasses}>{page.name}</a>
                     </Link>
