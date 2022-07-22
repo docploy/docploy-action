@@ -59,7 +59,10 @@ runs:
         fi
         mkdir ./$SHORT_SHA
         cp -r $GITHUB_ACTION_PATH/out/* ./$SHORT_SHA
+        echo "Checking to see if we should add a .nojekyll file"
+        ls -la
         if [ ! -f "./.nojekyll" ]; then
+          echo "Adding a .nojekyll file"
           touch "./.nojekyll"
         fi
         git add .
