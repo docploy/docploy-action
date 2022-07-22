@@ -1,20 +1,16 @@
 # Docploy Action
 
-The Docploy action deploys documentation to GitHub Pages. The documentation is tightly coupled with your code, which prevents documentation from going out of date. All code snippets used in the docuemntation can be imported and tested.
+The Docploy action deploys your Markdown files to GitHub Pages.
 
-Traditionally, there are no checks to guarantee that documentation stays up to date. There might be a process where documentation is manually proofread at regular intervals, but this does not scale as you reach hundreds of pages of documentation. This process is like if you had to manually run your code's unit tests each week. Instead, this action will not allow you to deploy broken documentation, so you can rest knowing your documentation is always correct.
+Docploy was built as a "docs-as-code", or a "docops" solution for technical documentation. There are common tasks related to the upkeep and maintenance technical documentation that can be automated.
+
+How many times have you found out that your docs were no longer up to date? This action allows you to run tests on code snippets in your docs, which will save a lot of developer time!
+
+How many extra hours has your pull request been blocked because of a style issue? This action can validate markdown files to make sure they follow style rules. Developers do not need to read style guides because the style is codified within rules.
 
 # Setup
 
-## Set up GitHub Pages
-
-1. Go to your repo's **Settings** page
-2. Click on **Pages** in the left sidebar
-3. Under **Source**, select the **gh-pages** branch (this is recommended, but you can select another branch), and click **Save**
-
-_Note: this action will overwrite the contents in the branch you select!_
-
-## Add action to your workflow
+## 1. Add the action to your workflow
 
 You can add a new job to your GitHub workflow yml file located at `.github/workflows/main.yml`
 
@@ -31,7 +27,16 @@ jobs:
         with:
           baseUrl: 'https://{username}.github.io/{repo}/'
           docsDir: 'docs'
+          pagesBranch: 'gh-pages'
 ```
+
+**_Note: this config will overwrite all files in your repo's pagesBranch_**
+
+## 2. Set up GitHub Pages
+
+1. Go to your repo's **Settings** page
+2. Click on **Pages** in the left sidebar
+3. Under **Source**, select the **gh-pages** branch (or branch that you defined as `pagesBranch` in the action inputs), and click **Save**
 
 # Usage
 
@@ -45,7 +50,7 @@ Waiting for docs to be deployed to: https://{username}.github.io/{repo}/e6c2d5b
 We successfully deployed the docs on: https://{username}.github.io/{repo}/e6c2d5b
 ```
 
-# Testing Your Docs
+# Testing Your Code Snippets
 
 You can use a `<% snippet path={path} %>` tag to import a code snippet into your docs during build time.
 
