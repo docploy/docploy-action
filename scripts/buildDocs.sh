@@ -17,10 +17,3 @@ yarn next build
 
 # Generate static assets for the docs
 yarn next export
-
-# Move serve.json into the out/ directory to prevent the serve package from
-# redirecting paths with .html appended at the end.
-# (This is only used for development where we use the "serve" package to serve
-# static HTML files)
-# https://github.com/vercel/serve-handler#cleanurls-booleanarray
-cp serve.json out/serve.json
