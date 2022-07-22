@@ -6,18 +6,18 @@ ls -la
 
 
 # Set up git metadata
-git config --global user.email "${{ inputs.email }}"
-git config --global user.name "${{ inputs.username }}"
+git config --global user.email "${EMAIL}"
+git config --global user.name "${USERNAME}"
 
 # Clean up pages branch
 git fetch
-git switch -c ${{ inputs.pagesBranch }}
+git switch -c ${PAGES_BRANCH}
 git clean -f -d
 
 # Reset pages branch if it exists remotely
-is_branch_in_remote=$(git ls-remote --heads origin ${{ inputs.pagesBranch}})
+is_branch_in_remote=$(git ls-remote --heads origin ${PAGES_BRANCH})
 if [[ ! -z ${is_branch_in_remote} ]]; then
-  git reset --hard origin/${{ inputs.pagesBranch }}
+  git reset --hard origin/${PAGES_BRANCH}
 fi
 
 # Move the static files into the $SHORT_SHA directory
@@ -40,4 +40,4 @@ fi
 # Push the built docs to the GitHub Pages branch
 git add .
 git commit -m "Publishing docs for $SHORT_SHA"
-git push origin ${{ inputs.pagesBranch }}
+git push origin ${PAGES_BRANCH}
