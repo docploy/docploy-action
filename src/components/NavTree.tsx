@@ -14,8 +14,9 @@ function NavTree({ navData }: { navData: NavTreeType }) {
             <h5 className="font-bold mb-2 mt-2 text-sm">{section.name}</h5>
             <ul className="space-y-2">
               {section.children.map((page) => {
+                const { relPath } = page;
                 let linkClasses = 'hover:text-slate-500 text-slate-800';
-                if (page.path.includes(router.asPath)) {
+                if (router.asPath !== '/' && router.asPath.includes(relPath)) {
                   linkClasses = 'font-bold text-sky-500';
                 }
                 return (

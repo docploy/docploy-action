@@ -10,7 +10,7 @@ import config from 'src/schema';
 import fs from 'fs';
 import glob from 'glob-promise';
 import path from 'path';
-import { type NavTreeType } from '../src/types';
+import { type NavTreeType } from 'src/types';
 import capitalize from 'src/utils/capitalize';
 import { getDocsDir } from 'src/utils/helpers';
 
@@ -59,6 +59,7 @@ async function getNavData() {
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
   const navTree = {
     path: '/',
+    relPath: '/',
     token: '',
     name: '',
     children: [],
@@ -75,12 +76,17 @@ async function getNavData() {
       const match = currentBranch.children.find((node: any) => {
         return node.token === token;
       });
+      const navTreePath = getNavTreePath(slug, i);
+      const relPath = navTreePath.slice(
+        (process.env.FULL_BASE_URL || '').length
+      );
 
       if (match) {
         currentBranch = match;
       } else {
         const newNode: NavTreeType = {
-          path: getNavTreePath(slug, i),
+          path: navTreePath,
+          relPath,
           token,
           name: getTitleFromToken(token),
           children: [],
