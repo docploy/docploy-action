@@ -16,13 +16,11 @@ function NavTree({ navData }: { navData: NavTreeType }) {
               {section.children.map((page) => {
                 const { relPath } = page;
                 let linkClasses = 'hover:text-slate-500 text-slate-800';
-                if (relPath === router.asPath) {
+                if (router.asPath !== '/' && router.asPath.includes(relPath)) {
                   linkClasses = 'font-bold text-sky-500';
                 }
                 return (
                   <li key={page.token}>
-                    <span>{relPath}</span>
-                    <span>{router.asPath}</span>
                     <Link href={page.path}>
                       <a className={linkClasses}>{page.name}</a>
                     </Link>
