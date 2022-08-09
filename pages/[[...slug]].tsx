@@ -13,6 +13,7 @@ import path from 'path';
 import { type NavTreeType } from 'src/types';
 import capitalize from 'src/utils/capitalize';
 import { getDocsDir } from 'src/utils/helpers';
+import { parse } from 'yaml';
 
 type Props = {
   content: string;
@@ -54,8 +55,115 @@ function getNavTreePath(slug: string[], level: number) {
   return navTreePath;
 }
 
+const ROOT_KEY = '_';
+
+function sortNavTreeLevel(
+  navTree: NavTreeType,
+  orderMap: { [key: string]: string[] }
+) {
+  const compare = (order: string[]) => {
+    return (a: NavTreeType, b: NavTreeType): number => {
+      const aToken = a.token;
+      const bToken = b.token;
+
+      const aPlace = order.indexOf(aToken);
+      const bPlace = order.indexOf(bToken);
+      // If child does not exist in the ordered list, then we do not need to prioritize its order
+      // So, return 1 so a is at the end
+      if (aPlace === -1) {
+        return 1;
+      }
+      if (bPlace === -1) {
+        return -1;
+      }
+      return aPlace - bPlace;
+    };
+  };
+
+  // Use BFS to sort the children for each node in the navTree
+  const queue: NavTreeType[] = [navTree];
+  let i = 0;
+  while (queue.length > 0) {
+    // Start by rearranging all of the children in the NavTree in the correct order
+    const curTree: NavTreeType | undefined = queue.shift();
+    if (curTree) {
+      if (curTree.children) {
+        // The root NavTree is represented by a token that is empty string, ''
+        // The orderMap uses the ROOT_KEY to represent the root
+        // Make sure to use this special key
+        const orderMapKey = curTree.token === '' ? ROOT_KEY : curTree.token;
+        const sortOrder = orderMap[orderMapKey];
+
+        curTree.children.sort(compare(sortOrder));
+        curTree.children.forEach((childNavTree: NavTreeType) => {
+          queue.push(childNavTree);
+        });
+      }
+    }
+  }
+}
+
+// TODO: Move this into a utility function
+function hasKey<O>(obj: O, key: PropertyKey): key is keyof O {
+  return key in obj;
+}
+
+function getFirstObjectKey(obj: Object) {
+  const keys = Object.keys(obj);
+  if (keys.length === 1) {
+    return keys[0];
+  }
+  throw new Error('getFirstObjectKey only accepts an object with one key');
+}
+
+// Use BFS to create an order map from the sidebar config
+function createOrderMap(sidebarConfig: Object) {
+  const queue: Object[] = [sidebarConfig];
+  const orderMap: { [key: string]: string[] } = {};
+
+  while (queue.length > 0) {
+    const item = queue.shift();
+    const key = getFirstObjectKey(item || {});
+    if (item && hasKey(item, key)) {
+      const children: (Object | string)[] = item[key] as unknown as (
+        | Object
+        | string
+      )[];
+      orderMap[key] = [];
+      (children as string[]).forEach((child: string | object) => {
+        if (typeof child == 'string') {
+          orderMap[key].push(child);
+        } else if (typeof child === 'object') {
+          const childKey = getFirstObjectKey(child);
+          orderMap[key].push(childKey);
+          queue.push(child);
+        }
+      });
+    }
+  }
+
+  return orderMap;
+}
+
+// Sort the navigation tree sidebar based on the ordering found in sidebar.yaml
+function sortNavTree(navTree: NavTreeType) {
+  const baseDocsDir = getDocsDir();
+  const sidebarConfigPath = path.join(baseDocsDir, 'sidebar.yaml');
+  let orderMap;
+
+  if (fs.existsSync(sidebarConfigPath)) {
+    const order = parse(fs.readFileSync(sidebarConfigPath, 'utf-8'));
+    orderMap = createOrderMap({ [ROOT_KEY]: order });
+  }
+
+  if (orderMap) {
+    sortNavTreeLevel(navTree, orderMap);
+  }
+}
+
 async function getNavData() {
   const baseDocsDir = getDocsDir();
+
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
   const navTree = {
     path: '/',
@@ -99,6 +207,9 @@ async function getNavData() {
     // reset pointer to root
     currentBranch = navTree;
   }
+
+  sortNavTree(navTree);
+
   return navTree;
 }
 
