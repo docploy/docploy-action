@@ -14,8 +14,10 @@ import { type NavTreeType } from 'src/types';
 import capitalize from 'src/utils/capitalize';
 import { getDocsDir } from 'src/utils/helpers';
 import { parse } from 'yaml';
+import matter from 'gray-matter';
 
 type Props = {
+  title: string;
   content: string;
   navData: NavTreeType;
 };
@@ -161,7 +163,32 @@ function sortNavTree(navTree: NavTreeType) {
   }
 }
 
-async function getNavData() {
+// TODO: We are processing the gray-matter of every document
+// This could be a source of long build times for teams that have many documents
+// Currently, This function only adds name data.
+function addExtraNavData(navTree: NavTreeType) {
+  const queue: NavTreeType[] = [navTree];
+
+  while (queue.length > 0) {
+    const curTree = queue.shift();
+    if (curTree) {
+      const slug = curTree.relPath.split('/').slice(1);
+      const fullPath = getPathFromSlug(slug);
+      const {
+        data: { title: matterTitle },
+      } = matter.read(fullPath);
+      const title = matterTitle || getTitleFromToken(curTree.token);
+      curTree.name = title;
+      curTree.children.forEach((child: NavTreeType) => {
+        queue.push(child);
+      });
+    }
+  }
+
+  return navTree;
+}
+
+async function createNavTree() {
   const baseDocsDir = getDocsDir();
 
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
@@ -196,7 +223,7 @@ async function getNavData() {
           path: navTreePath,
           relPath,
           token,
-          name: getTitleFromToken(token),
+          name: '',
           children: [],
         };
         currentBranch.children.push(newNode);
@@ -248,14 +275,22 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const slug = params?.slug || [];
   const fullPath = getPathFromSlug(slug);
   const source = fs.readFileSync(fullPath, 'utf-8');
+  const {
+    data: { title: matterTitle },
+    content: matterContent,
+  } = matter(source);
 
-  const ast = Markdoc.parse(source);
+  const title = matterTitle || getTitleFromToken(slug[slug.length - 1]);
+
+  const ast = Markdoc.parse(matterContent);
   const content = JSON.stringify(Markdoc.transform(ast, config));
 
-  const navData = await getNavData();
+  const navData = await createNavTree();
+  addExtraNavData(navData);
 
   return {
     props: {
+      title,
       content,
       navData,
     },
@@ -263,7 +298,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 };
 
 const Home: NextPage<Props> = (props) => {
-  const { content, navData } = props;
+  const { content, navData, title } = props;
   const parsedContent = JSON.parse(content);
 
   return (
@@ -276,6 +311,7 @@ const Home: NextPage<Props> = (props) => {
         </div>
         <div className="basis-0 grow p-16">
           <div className="max-w-3xl">
+            <h1 className="font-bold mt-8 text-4xl">{title}</h1>
             {Markdoc.renderers.react(parsedContent, React, {
               components,
             })}
