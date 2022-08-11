@@ -1,3 +1,14 @@
+export type DocSearchResult = {
+  title: string;
+  url: string;
+  excerpt: string;
+};
+
+export type SearchIndexResult = {
+  title: string;
+  content: string;
+};
+
 export type NavTreeType = {
   path: string;
   relPath: string;
