@@ -11,8 +11,11 @@ import fs from 'fs';
 import glob from 'glob-promise';
 import path from 'path';
 import { type NavTreeType } from 'src/types';
-import capitalize from 'src/utils/capitalize';
-import { getDocsDir } from 'src/utils/helpers';
+import {
+  getDocsDir,
+  getSlugFromPath,
+  getTitleFromToken,
+} from 'src/utils/helpers';
 import { parse } from 'yaml';
 import matter from 'gray-matter';
 
@@ -25,27 +28,6 @@ type Props = {
 interface Params extends ParsedUrlQuery {
   docPath: string;
   slug: string[];
-}
-
-function getSlugFromPath(relPath: string) {
-  let slug = relPath.replace('.md', '').split('/');
-
-  const filename = slug[slug.length - 1];
-
-  // remove index and only keep the directory name
-  if (filename === 'index') {
-    slug.pop();
-  }
-
-  return slug;
-}
-
-function getTitleFromToken(str: string) {
-  const split = str.split('-');
-  const capitalizedSplit = split.map((word: string) => {
-    return capitalize(word);
-  });
-  return capitalizedSplit.join(' ');
 }
 
 function getNavTreePath(slug: string[], level: number) {
@@ -84,7 +66,6 @@ function sortNavTreeLevel(
 
   // Use BFS to sort the children for each node in the navTree
   const queue: NavTreeType[] = [navTree];
-  let i = 0;
   while (queue.length > 0) {
     // Start by rearranging all of the children in the NavTree in the correct order
     const curTree: NavTreeType | undefined = queue.shift();
