@@ -18,6 +18,7 @@ import {
 } from 'src/utils/helpers';
 import { parse } from 'yaml';
 import matter from 'gray-matter';
+import Head from 'next/head';
 
 type Props = {
   title: string;
@@ -284,6 +285,9 @@ const Home: NextPage<Props> = (props) => {
 
   return (
     <div className="flex flex-col m-auto p-8 max-w-7xl">
+      <Head>
+        <title>{title}</title>
+      </Head>
       <div className="flex">
         <div className="basis-72">
           <div className="h-screen p-8 overflow-y-auto">
