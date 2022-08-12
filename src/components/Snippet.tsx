@@ -1,19 +1,67 @@
 import 'prismjs/themes/prism-okaidia.css';
 import 'prismjs/components/prism-python';
 
-import { ClipboardCheckIcon, ClipboardIcon } from '@heroicons/react/outline';
-import { useEffect, useState } from 'react';
+import {
+  CheckCircleIcon,
+  ClipboardCheckIcon,
+  ClipboardIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
+import React, { useEffect, useState } from 'react';
 
+import Tippy from '@tippyjs/react';
 import prismjs from 'prismjs';
 
 type Snippet = {
   language: string;
   content: string;
+  passed: boolean;
+  passedTime: Date;
 };
 
 type Props = {
   snippets: Snippet[];
 };
+
+type SnippetStatus = {
+  passed: boolean;
+  passedTime: Date;
+};
+
+type SnippetStatusTooltipProps = {
+  children: React.ReactElement;
+  message: string;
+};
+
+function SnippetStatusTooltip({
+  children,
+  message,
+}: SnippetStatusTooltipProps) {
+  return (
+    <Tippy
+      placement="top"
+      content={
+        <div className="bg-slate-900 text-white font-bold p-2 rounded-md text-xs">
+          {message}
+        </div>
+      }
+    >
+      {children}
+    </Tippy>
+  );
+}
+
+function SnippetStatus({ passed, passedTime }: SnippetStatus) {
+  return passed ? (
+    <SnippetStatusTooltip message={`Test passed ${passedTime || ''}`}>
+      <CheckCircleIcon className="absolute text-green-400 h-6 w-6 bottom-4 right-4" />
+    </SnippetStatusTooltip>
+  ) : (
+    <SnippetStatusTooltip message={`Test failed ${passedTime || ''}`}>
+      <XCircleIcon className="absolute text-red-400 h-6 w-6 bottom-4 right-4" />
+    </SnippetStatusTooltip>
+  );
+}
 
 function Snippet({ snippets }: Props) {
   const languages = snippets.map((snippet) => snippet.language);
@@ -84,6 +132,10 @@ function Snippet({ snippets }: Props) {
         className={`language-${snippets[snippetIndex].language} rounded-md !text-sm !bg-slate-800 !p-0`}
         dangerouslySetInnerHTML={{ __html: currentCode }}
       ></pre>
+      <SnippetStatus
+        passed={snippets[snippetIndex].passed}
+        passedTime={snippets[snippetIndex].passedTime}
+      />
     </div>
   );
 }
