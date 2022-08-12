@@ -1,4 +1,4 @@
-import type { RenderableTreeNode, Schema } from '@markdoc/markdoc';
+import { RenderableTreeNode, Schema } from '@markdoc/markdoc';
 
 import { Tag } from '@markdoc/markdoc';
 import detect from 'language-detect';
@@ -20,22 +20,23 @@ function getContentFromPath(path: string) {
 export const snippet: Schema = {
   render: 'Snippet',
   attributes: {
-    path: {
-      type: String,
+    paths: {
+      type: Array,
     },
   },
   transform(node, config): RenderableTreeNode {
     const attributes = {
       ...node.transformAttributes(config),
     };
-    const { path } = attributes;
-
+    const { paths } = attributes;
     const baseDocsDir = getDocsDir();
-    const fullPath = pathPkg.join(baseDocsDir, path);
 
-    attributes.language = detect.sync(fullPath).toLowerCase();
-
-    const content = getContentFromPath(fullPath);
-    return new Tag('Snippet', attributes, [content]);
+    const snippets = paths.map((path: string) => {
+      const fullPath = pathPkg.join(baseDocsDir, path);
+      const language = detect.sync(fullPath);
+      const content = getContentFromPath(fullPath);
+      return { language, content };
+    });
+    return new Tag('Snippet', { snippets }, []);
   },
 };
