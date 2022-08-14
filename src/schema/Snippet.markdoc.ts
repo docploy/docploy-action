@@ -4,20 +4,9 @@ import { Tag } from '@markdoc/markdoc';
 import { TestStatus } from 'src/types';
 import detect from 'language-detect';
 import fs from 'fs';
+import { getCodeBlock } from 'src/utils/snippetParser';
 import { getDocsDir } from 'src/utils/helpers';
-import lineByLine from 'n-readlines';
 import pathPkg from 'path';
-
-function getContentFromPath(path: string) {
-  let source = '';
-  const liner = new lineByLine(path);
-  let line;
-  while ((line = liner.next())) {
-    source += line + '\n';
-  }
-
-  return source;
-}
 
 export const snippet: Schema = {
   render: 'Snippet',
@@ -44,7 +33,7 @@ export const snippet: Schema = {
     const snippets = paths.map((path: string) => {
       const fullPath = pathPkg.join(baseDocsDir, path);
       const language = detect.sync(fullPath);
-      const content = getContentFromPath(fullPath);
+      const content = getCodeBlock(fullPath);
 
       let status: TestStatus = 'unknown';
       let runTime: number = Date.now();
