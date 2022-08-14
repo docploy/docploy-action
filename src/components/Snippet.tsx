@@ -5,18 +5,21 @@ import {
   CheckCircleIcon,
   ClipboardCheckIcon,
   ClipboardIcon,
+  QuestionMarkCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
 import React, { useEffect, useState } from 'react';
 
+import { TestStatus } from 'src/types';
 import Tippy from '@tippyjs/react';
+import { format } from 'date-fns';
 import prismjs from 'prismjs';
 
 type Snippet = {
   language: string;
   content: string;
-  passed: boolean;
-  passedTime: Date;
+  status: TestStatus;
+  runTime: number;
 };
 
 type Props = {
@@ -24,8 +27,8 @@ type Props = {
 };
 
 type SnippetStatus = {
-  passed: boolean;
-  passedTime: Date;
+  status: TestStatus;
+  runTime: number;
 };
 
 type SnippetStatusTooltipProps = {
@@ -51,16 +54,28 @@ function SnippetStatusTooltip({
   );
 }
 
-function SnippetStatus({ passed, passedTime }: SnippetStatus) {
-  return passed ? (
-    <SnippetStatusTooltip message={`Test passed ${passedTime || ''}`}>
-      <CheckCircleIcon className="absolute text-green-400 h-6 w-6 bottom-4 right-4" />
-    </SnippetStatusTooltip>
-  ) : (
-    <SnippetStatusTooltip message={`Test failed ${passedTime || ''}`}>
-      <XCircleIcon className="absolute text-red-400 h-6 w-6 bottom-4 right-4" />
-    </SnippetStatusTooltip>
-  );
+function SnippetStatus({ status, runTime }: SnippetStatus) {
+  const parsedTime = format(runTime, 'MM/dd/yyyy');
+  switch (status) {
+    case 'passed':
+      return (
+        <SnippetStatusTooltip message={`Last run passed on ${parsedTime}`}>
+          <CheckCircleIcon className="absolute text-green-400 h-6 w-6 bottom-4 right-4" />
+        </SnippetStatusTooltip>
+      );
+    case 'failed':
+      return (
+        <SnippetStatusTooltip message={`Last run failed on ${parsedTime}`}>
+          <XCircleIcon className="absolute text-red-400 h-6 w-6 bottom-4 right-4" />
+        </SnippetStatusTooltip>
+      );
+    case 'unknown':
+      return (
+        <SnippetStatusTooltip message="This code has not been validated">
+          <QuestionMarkCircleIcon className="absolute text-yellow-400 h-6 w-6 bottom-4 right-4" />
+        </SnippetStatusTooltip>
+      );
+  }
 }
 
 function Snippet({ snippets }: Props) {
@@ -133,8 +148,8 @@ function Snippet({ snippets }: Props) {
         dangerouslySetInnerHTML={{ __html: currentCode }}
       ></pre>
       <SnippetStatus
-        passed={snippets[snippetIndex].passed}
-        passedTime={snippets[snippetIndex].passedTime}
+        status={snippets[snippetIndex].status}
+        runTime={snippets[snippetIndex].runTime}
       />
     </div>
   );
