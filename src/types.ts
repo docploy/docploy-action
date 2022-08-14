@@ -16,3 +16,5 @@ export type NavTreeType = {
   name: string;
   children: NavTreeType[];
 };
+
+export type TestStatus = 'passed' | 'failed' | 'unknown';

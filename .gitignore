@@ -2,6 +2,7 @@
 .env
 .next/
 .swc/
+.docploy/
 
 yarn-error.log
 tsconfig.tsbuildinfo

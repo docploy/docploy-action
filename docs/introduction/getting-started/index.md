@@ -6,7 +6,7 @@ title: 🚀 Getting Started
 
 {% snippet
   paths=[
-    "introduction/getting-started/snippet.js",
+    "introduction/getting-started/snippet.test.js",
     "introduction/getting-started/snippet.py",
   ]
 /%}

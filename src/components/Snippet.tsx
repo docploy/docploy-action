@@ -1,19 +1,82 @@
 import 'prismjs/themes/prism-okaidia.css';
 import 'prismjs/components/prism-python';
 
-import { ClipboardCheckIcon, ClipboardIcon } from '@heroicons/react/outline';
-import { useEffect, useState } from 'react';
+import {
+  CheckCircleIcon,
+  ClipboardCheckIcon,
+  ClipboardIcon,
+  QuestionMarkCircleIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
+import React, { useEffect, useState } from 'react';
 
+import { TestStatus } from 'src/types';
+import Tippy from '@tippyjs/react';
+import { format } from 'date-fns';
 import prismjs from 'prismjs';
 
 type Snippet = {
   language: string;
   content: string;
+  status: TestStatus;
+  runTime: number;
 };
 
 type Props = {
   snippets: Snippet[];
 };
+
+type SnippetStatus = {
+  status: TestStatus;
+  runTime: number;
+};
+
+type SnippetStatusTooltipProps = {
+  children: React.ReactElement;
+  message: string;
+};
+
+function SnippetStatusTooltip({
+  children,
+  message,
+}: SnippetStatusTooltipProps) {
+  return (
+    <Tippy
+      placement="top"
+      content={
+        <div className="bg-slate-900 text-white font-bold p-2 rounded-md text-xs">
+          {message}
+        </div>
+      }
+    >
+      {children}
+    </Tippy>
+  );
+}
+
+function SnippetStatus({ status, runTime }: SnippetStatus) {
+  const parsedTime = format(runTime, 'MM/dd/yyyy');
+  switch (status) {
+    case 'passed':
+      return (
+        <SnippetStatusTooltip message={`Last run passed on ${parsedTime}`}>
+          <CheckCircleIcon className="absolute text-green-400 h-6 w-6 bottom-4 right-4" />
+        </SnippetStatusTooltip>
+      );
+    case 'failed':
+      return (
+        <SnippetStatusTooltip message={`Last run failed on ${parsedTime}`}>
+          <XCircleIcon className="absolute text-red-400 h-6 w-6 bottom-4 right-4" />
+        </SnippetStatusTooltip>
+      );
+    case 'unknown':
+      return (
+        <SnippetStatusTooltip message="This code has not been validated">
+          <QuestionMarkCircleIcon className="absolute text-yellow-400 h-6 w-6 bottom-4 right-4" />
+        </SnippetStatusTooltip>
+      );
+  }
+}
 
 function Snippet({ snippets }: Props) {
   const languages = snippets.map((snippet) => snippet.language);
@@ -84,6 +147,10 @@ function Snippet({ snippets }: Props) {
         className={`language-${snippets[snippetIndex].language} rounded-md !text-sm !bg-slate-800 !p-0`}
         dangerouslySetInnerHTML={{ __html: currentCode }}
       ></pre>
+      <SnippetStatus
+        status={snippets[snippetIndex].status}
+        runTime={snippets[snippetIndex].runTime}
+      />
     </div>
   );
 }

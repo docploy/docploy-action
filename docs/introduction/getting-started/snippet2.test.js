@@ -1,4 +1,4 @@
-describe('Getting Started', () => {
+describe('Getting Started 2', () => {
   it('should return 2', () => {
     function snippet() {
       return 1 + 1;
