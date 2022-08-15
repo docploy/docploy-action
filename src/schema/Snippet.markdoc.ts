@@ -39,6 +39,7 @@ export const snippet: Schema = {
     console.log('rawTestResults', rawTestResults);
     const testResults = JSON.parse(rawTestResults);
 
+    console.log('paths', paths);
     const snippets = paths.map((path: string) => {
       const fullPath = pathPkg.join(baseDocsDir, path);
       const language = detect.sync(fullPath);
