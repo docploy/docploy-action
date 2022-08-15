@@ -294,6 +294,9 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/dotenv/config.js
 var config = __nccwpck_require__(227);
+;// CONCATENATED MODULE: ./src/utils/constants.ts
+var TEST_RESULTS_FILENAME = 'test_results.json';
+
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __nccwpck_require__(147);
 var external_fs_default = /*#__PURE__*/__nccwpck_require__.n(external_fs_);
@@ -378,10 +381,11 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 // Run the following command to build this reporter file:
 //   yarn run ncc build -s ./src/action/jestReporter.ts -o ./dist/jestReporter
 // Then, run the following command to run the built file:
-//   yarn jest ./docs/ --reporters="default" --reporters="./dist/jestReporter/index.js
+//   yarn jest ./docs/ --reporters="default" --reporters="./dist/jestReporter/index.js"
 var DocployReporter = /** @class */ (function () {
     function DocployReporter() {
     }
@@ -408,7 +412,7 @@ var DocployReporter = /** @class */ (function () {
                         });
                         data = JSON.stringify(testResults);
                         docployDir = external_path_default().join(process.env.GITHUB_WORKSPACE || '', process.env.DOCPLOY_DIR || '');
-                        writePath = external_path_default().join(docployDir, process.env.TEST_RESULTS_FILENAME || '');
+                        writePath = external_path_default().join(docployDir, TEST_RESULTS_FILENAME);
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 5]);

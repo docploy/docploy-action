@@ -1,5 +1,6 @@
 import { RenderableTreeNode, Schema } from '@markdoc/markdoc';
 
+import { TEST_RESULTS_FILENAME } from 'src/utils/constants';
 import { Tag } from '@markdoc/markdoc';
 import { TestStatus } from 'src/types';
 import detect from 'language-detect';
@@ -26,14 +27,14 @@ export const snippet: Schema = {
     const testResultsPath = pathPkg.join(
       process.env.GITHUB_WORKSPACE || '',
       process.env.DOCPLOY_DIR || '',
-      process.env.TEST_RESULTS_FILENAME || ''
+      TEST_RESULTS_FILENAME
     );
     console.log('testResultsPath', testResultsPath);
     // const rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
     try {
       rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
     } catch (e) {
-      console.error(e);
+      console.error('Error reading test results file:', e);
     }
     console.log('rawTestResults', rawTestResults);
     const testResults = JSON.parse(rawTestResults);

@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { Reporter, TestContext } from '@jest/reporters';
 
 import { AggregatedResult } from '@jest/test-result';
+import { TEST_RESULTS_FILENAME } from 'src/utils/constants';
 import fs from 'fs';
 import { getDocsDir } from 'src/utils/helpers';
 import path from 'path';
@@ -48,10 +49,7 @@ export default class DocployReporter
       process.env.DOCPLOY_DIR || ''
     );
 
-    const writePath = path.join(
-      docployDir,
-      process.env.TEST_RESULTS_FILENAME || ''
-    );
+    const writePath = path.join(docployDir, TEST_RESULTS_FILENAME);
 
     try {
       await fs.promises.access(docployDir);
