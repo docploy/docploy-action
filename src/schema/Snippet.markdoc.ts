@@ -1,4 +1,4 @@
-import { RenderableTreeNode, Schema } from '@markdoc/markdoc';
+import { RenderableTreeNode, Schema, ValidationError } from '@markdoc/markdoc';
 
 import { TEST_RESULTS_FILENAME } from 'src/utils/constants';
 import { Tag } from '@markdoc/markdoc';
@@ -17,16 +17,31 @@ export const snippet: Schema = {
     },
   },
   validate(node) {
-    if (node.attributes.paths.length === 0) {
-      return [
-        {
-          id: 'snippet-paths',
-          level: 'critical',
-          message: 'Snippet is missing the `paths` attribute.',
-        },
-      ];
+    const {
+      attributes: { paths },
+    } = node;
+    const errors: ValidationError[] = [];
+    if (!paths || paths.length === 0) {
+      errors.push({
+        id: 'snippet-missing-paths-attribute',
+        level: 'critical',
+        message: 'Snippet is missing the `paths` attribute.',
+      });
     }
-    return [];
+
+    paths.forEach((path: string) => {
+      const baseDocsDir = getDocsDir();
+      const fullPath = pathPkg.join(baseDocsDir, path);
+      console.log('fullPath', fullPath);
+      if (!fs.existsSync(fullPath)) {
+        errors.push({
+          id: 'snippet-invalid-path',
+          level: 'critical',
+          message: `Snippet path ${path} does not exist`,
+        });
+      }
+    });
+    return errors;
   },
   transform(node, config): RenderableTreeNode {
     const attributes = {
@@ -48,14 +63,7 @@ export const snippet: Schema = {
     }
     const testResults = JSON.parse(rawTestResults);
 
-    // This may not be necessary when we enable Markdown.validate(...)
-    if (!paths || paths.length === 0) {
-      throw new Error('Snippet `paths` attribute is empty');
-    }
-
     const snippets = paths.map((path: string) => {
-      // TODO: need to add a check to make sure path exists
-      // Do the check in the validate method
       const fullPath = pathPkg.join(baseDocsDir, path);
       const language = detect.sync(fullPath);
       const content = getCodeBlock(fullPath);

@@ -6,6 +6,12 @@ import { snippet } from './Snippet.markdoc';
 
 const heading: Schema = {
   render: 'Heading',
+  attributes: {
+    level: {
+      type: Number,
+      required: true,
+    },
+  },
   transform(node, config) {
     return new Tag(
       'Heading',
