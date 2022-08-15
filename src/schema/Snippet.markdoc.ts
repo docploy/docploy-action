@@ -41,18 +41,14 @@ export const snippet: Schema = {
       process.env.DOCPLOY_DIR || '',
       TEST_RESULTS_FILENAME
     );
-    console.log('testResultsPath', testResultsPath);
-    // const rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
     try {
       rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
     } catch (e) {
       console.error('Error reading test results file:', e);
     }
-    console.log('rawTestResults', rawTestResults);
     const testResults = JSON.parse(rawTestResults);
 
     // This may not be necessary when we enable Markdown.validate(...)
-    console.log('paths', paths);
     if (!paths || paths.length === 0) {
       throw new Error('Snippet `paths` attribute is empty');
     }

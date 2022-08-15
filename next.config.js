@@ -10,6 +10,4 @@ module.exports = {
   env: {
     FULL_BASE_URL: docsUrl,
   },
-  // Make it easier to debug during prototype stage
-  productionBrowserSourceMaps: true,
 };
