@@ -265,6 +265,13 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const title = matterTitle || getTitleFromToken(slug[slug.length - 1]);
 
   const ast = Markdoc.parse(matterContent);
+  const errors = Markdoc.validate(ast, config);
+
+  if (errors.length > 0) {
+    console.error(errors);
+    throw new Error('Failed validation on Markdown');
+  }
+
   const content = JSON.stringify(Markdoc.transform(ast, config));
 
   const navData = await createNavTree();
