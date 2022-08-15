@@ -51,7 +51,12 @@ export const snippet: Schema = {
     console.log('rawTestResults', rawTestResults);
     const testResults = JSON.parse(rawTestResults);
 
+    // This may not be necessary when we enable Markdown.validate(...)
     console.log('paths', paths);
+    if (!paths || paths.length === 0) {
+      throw new Error('Snippet `paths` attribute is empty');
+    }
+
     const snippets = paths.map((path: string) => {
       const fullPath = pathPkg.join(baseDocsDir, path);
       const language = detect.sync(fullPath);
