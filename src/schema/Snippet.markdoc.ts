@@ -32,7 +32,6 @@ export const snippet: Schema = {
     paths.forEach((path: string) => {
       const baseDocsDir = getDocsDir();
       const fullPath = pathPkg.join(baseDocsDir, path);
-      console.log('fullPath', fullPath);
       if (!fs.existsSync(fullPath)) {
         errors.push({
           id: 'snippet-invalid-path',
