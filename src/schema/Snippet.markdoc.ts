@@ -58,6 +58,8 @@ export const snippet: Schema = {
     }
 
     const snippets = paths.map((path: string) => {
+      // TODO: need to add a check to make sure path exists
+      // Do the check in the validate method
       const fullPath = pathPkg.join(baseDocsDir, path);
       const language = detect.sync(fullPath);
       const content = getCodeBlock(fullPath);
