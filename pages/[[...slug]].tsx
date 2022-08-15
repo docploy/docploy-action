@@ -136,7 +136,9 @@ function sortNavTree(navTree: NavTreeType) {
   let orderMap;
 
   if (fs.existsSync(sidebarConfigPath)) {
+    console.log('before 2');
     const order = parse(fs.readFileSync(sidebarConfigPath, 'utf-8'));
+    console.log('after 2');
     orderMap = createOrderMap({ [ROOT_KEY]: order });
   }
 
@@ -256,7 +258,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   // default slug to be empty for the case where we are in the top level directory's index.md
   const slug = params?.slug || [];
   const fullPath = getPathFromSlug(slug);
+  console.log('before 1');
   const source = fs.readFileSync(fullPath, 'utf-8');
+  console.log('after 1');
   const {
     data: { title: matterTitle },
     content: matterContent,
