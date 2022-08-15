@@ -16,6 +16,18 @@ export const snippet: Schema = {
       type: Array,
     },
   },
+  validate(node) {
+    if (node.attributes.paths.length === 0) {
+      return [
+        {
+          id: 'snippet-paths',
+          level: 'critical',
+          message: 'Snippet is missing the `paths` attribute.',
+        },
+      ];
+    }
+    return [];
+  },
   transform(node, config): RenderableTreeNode {
     const attributes = {
       ...node.transformAttributes(config),
