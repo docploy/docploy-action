@@ -21,7 +21,7 @@ export const snippet: Schema = {
     };
     const { paths } = attributes;
     const baseDocsDir = getDocsDir();
-    let rawTestResults = '':
+    let rawTestResults = '';
 
     const testResultsPath = pathPkg.join(
       process.env.GITHUB_WORKSPACE || '',
@@ -31,7 +31,7 @@ export const snippet: Schema = {
     console.log('testResultsPath', testResultsPath);
     // const rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
     try {
-      rawTestResults = await fs.promises.readFile(testResultsPath, 'utf8');
+      rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
     } catch (e) {
       console.error(e);
     }
