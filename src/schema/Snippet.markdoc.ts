@@ -27,7 +27,9 @@ export const snippet: Schema = {
       process.env.DOCPLOY_DIR || '',
       process.env.TEST_RESULTS_FILENAME || ''
     );
+    console.log('testResultsPath', testResultsPath);
     const rawTestResults = fs.readFileSync(testResultsPath, 'utf8');
+    console.log('rawTestResults', rawTestResults);
     const testResults = JSON.parse(rawTestResults);
 
     const snippets = paths.map((path: string) => {
