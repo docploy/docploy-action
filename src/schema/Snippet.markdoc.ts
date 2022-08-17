@@ -6,7 +6,7 @@ import { TestStatus } from 'src/types';
 import detect from 'language-detect';
 import fs from 'fs';
 import { getCodeBlock } from 'src/utils/snippetParser';
-import { getDocsDir } from 'src/utils/helpers';
+import { getProjectDir } from 'src/utils/helpers';
 import pathPkg from 'path';
 
 export const snippet: Schema = {
@@ -30,8 +30,8 @@ export const snippet: Schema = {
     }
 
     paths.forEach((path: string) => {
-      const baseDocsDir = getDocsDir();
-      const fullPath = pathPkg.join(baseDocsDir, path);
+      const baseProjectDir = getProjectDir();
+      const fullPath = pathPkg.join(baseProjectDir, path);
       if (!fs.existsSync(fullPath)) {
         errors.push({
           id: 'snippet-invalid-path',
@@ -47,7 +47,7 @@ export const snippet: Schema = {
       ...node.transformAttributes(config),
     };
     const { paths } = attributes;
-    const baseDocsDir = getDocsDir();
+    const baseProjectDir = getProjectDir();
     let rawTestResults = '';
 
     const testResultsPath = pathPkg.join(
@@ -63,7 +63,7 @@ export const snippet: Schema = {
     const testResults = JSON.parse(rawTestResults);
 
     const snippets = paths.map((path: string) => {
-      const fullPath = pathPkg.join(baseDocsDir, path);
+      const fullPath = pathPkg.join(baseProjectDir, path);
       const language = detect.sync(fullPath);
       const content = getCodeBlock(fullPath);
 
