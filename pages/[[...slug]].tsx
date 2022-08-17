@@ -12,9 +12,11 @@ import glob from 'glob-promise';
 import path from 'path';
 import { type NavTreeType } from 'src/types';
 import {
+  getProjectDir,
   getDocsDir,
   getSlugFromPath,
   getTitleFromToken,
+  getPathFromSlug,
 } from 'src/utils/helpers';
 import { parse } from 'yaml';
 import matter from 'gray-matter';
@@ -131,8 +133,8 @@ function createOrderMap(sidebarConfig: Object) {
 
 // Sort the navigation tree sidebar based on the ordering found in sidebar.yaml
 function sortNavTree(navTree: NavTreeType) {
-  const baseDocsDir = getDocsDir();
-  const sidebarConfigPath = path.join(baseDocsDir, 'sidebar.yaml');
+  const baseProjectDir = getProjectDir();
+  const sidebarConfigPath = path.join(baseProjectDir, 'sidebar.yaml');
   let orderMap;
 
   if (fs.existsSync(sidebarConfigPath)) {
@@ -145,21 +147,28 @@ function sortNavTree(navTree: NavTreeType) {
   }
 }
 
-// TODO: We are processing the gray-matter of every document
-// This could be a source of long build times for teams that have many documents
-// Currently, This function only adds name data.
+// TODO: We are processing the gray-matter of every document.
+// This could be a source of long build times when projects have many documents.
+// This is especially true since this function only adds name data.
 function addExtraNavData(navTree: NavTreeType) {
   const queue: NavTreeType[] = [navTree];
 
   while (queue.length > 0) {
     const curTree = queue.shift();
+
+    // Assign titles to all of the tree nodes
     if (curTree) {
       const slug = curTree.relPath.split('/').slice(1);
+      let title = getTitleFromToken(curTree.token);
       const fullPath = getPathFromSlug(slug);
-      const {
-        data: { title: matterTitle },
-      } = matter.read(fullPath);
-      const title = matterTitle || getTitleFromToken(curTree.token);
+      if (fs.existsSync(fullPath)) {
+        const {
+          data: { title: matterTitle },
+        } = matter.read(fullPath);
+
+        // Use the matter title if it exists
+        title = matterTitle || title;
+      }
       curTree.name = title;
       curTree.children.forEach((child: NavTreeType) => {
         queue.push(child);
@@ -174,11 +183,12 @@ async function createNavTree() {
   const baseDocsDir = getDocsDir();
 
   const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
-  const navTree = {
+  const navTree: NavTreeType = {
     path: '/',
     relPath: '/',
     token: '',
     name: '',
+    type: 'directory',
     children: [],
   };
 
@@ -190,6 +200,11 @@ async function createNavTree() {
     let currentBranch: NavTreeType = navTree;
 
     slug.forEach((token, i) => {
+      // Use `index` as the token for the root document so we can order it using sidebar.yaml
+      if (token === '') {
+        token = 'index';
+      }
+
       const match = currentBranch.children.find((node: any) => {
         return node.token === token;
       });
@@ -206,6 +221,7 @@ async function createNavTree() {
           relPath,
           token,
           name: '',
+          type: i === slug.length - 1 ? 'file' : 'directory',
           children: [],
         };
         currentBranch.children.push(newNode);
@@ -222,23 +238,9 @@ async function createNavTree() {
   return navTree;
 }
 
-function getPathFromSlug(slug: string[]) {
-  const baseDocsDir = getDocsDir();
-  const relPath = slug.join('/');
-  let fullPath = path.join(baseDocsDir, relPath);
-  if (fs.existsSync(fullPath)) {
-    // we know we have a directory, so get the child index.md from that directory
-    fullPath += '/index.md';
-  } else {
-    // we know we have a file
-    fullPath += '.md';
-  }
-  return fullPath;
-}
-
 export const getStaticPaths: GetStaticPaths = async () => {
   const baseDocsDir = getDocsDir();
-  const docPaths = await glob(path.join(baseDocsDir, '**/*.md'));
+  const docPaths = await glob(baseDocsDir + '/**/*.md');
 
   const paths = docPaths.map((docPath: string) => {
     const relPath = docPath.substring(baseDocsDir.length);

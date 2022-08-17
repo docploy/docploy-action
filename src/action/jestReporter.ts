@@ -5,7 +5,7 @@ import { Reporter, TestContext } from '@jest/reporters';
 import { AggregatedResult } from '@jest/test-result';
 import { TEST_RESULTS_FILENAME } from 'src/utils/constants';
 import fs from 'fs';
-import { getDocsDir } from 'src/utils/helpers';
+import { getProjectDir } from 'src/utils/helpers';
 import path from 'path';
 
 type TestResults = {
@@ -18,20 +18,24 @@ type TestResults = {
 // Run the following command to build this reporter file:
 //   yarn run ncc build -s ./src/action/jestReporter.ts -o ./dist/jestReporter
 // Then, run the following command to run the built file:
-//   yarn jest ./docs/ --reporters="default" --reporters="./dist/jestReporter/index.js"
+//   yarn jest ./docploy/ --reporters="default" --reporters="./dist/jestReporter/index.js"
 
 export default class DocployReporter
   implements Pick<Reporter, 'onRunComplete'>
 {
   async onRunComplete(_: Set<TestContext>, results: AggregatedResult) {
-    const baseDocsDir = getDocsDir();
+    const baseProjectDir = getProjectDir();
     const testResults: TestResults = {};
 
     const time = results.startTime;
 
     results.testResults.forEach((result) => {
       const path = result.testFilePath;
-      const relPath = path.slice(baseDocsDir.length);
+      let relPath = path.slice(baseProjectDir.length);
+
+      if (relPath.charAt(0) === '/') {
+        relPath = relPath.slice(1);
+      }
       const hasFailure = result.testResults.some((itResult) => {
         return itResult.status === 'failed';
       });

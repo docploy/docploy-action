@@ -307,27 +307,42 @@ var external_path_default = /*#__PURE__*/__nccwpck_require__.n(external_path_);
 
 
 var DEFAULTS = {
-    DOCS_DIR: '/docs',
+    DOCS_DIR: '/docploy/docs',
     GITHUB_WORKSPACE: './',
+    PROJECT_DIR: '/docploy',
 };
+function getProjectDir() {
+    var _a = process.env, _b = _a.PROJECT_DIR, PROJECT_DIR = _b === void 0 ? DEFAULTS.PROJECT_DIR : _b, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? DEFAULTS.GITHUB_WORKSPACE : _c;
+    return external_path_default().join(GITHUB_WORKSPACE, PROJECT_DIR);
+}
 function getDocsDir() {
-    var _a = process.env, _b = _a.DOCS_DIR, DOCS_DIR = _b === void 0 ? DEFAULTS.DOCS_DIR : _b, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? DEFAULTS.GITHUB_WORKSPACE : _c;
+    var _a = process.env, _b = _a.DOCS_DIR, DOCS_DIR = _b === void 0 ? DEFAULTS.DOCS_DIR : _b, _c = _a.GITHUB_WORKSPACE, GITHUB_WORKSPACE = _c === void 0 ? DEFAULTS.GITHUB_WORKSPACE : _c, _d = _a.PROJECT_DIR, PROJECT_DIR = _d === void 0 ? DEFAULTS.PROJECT_DIR : _d;
     var docsDir = DOCS_DIR;
     // Normalize docs dir with a trailing slash at the end
     if (!docsDir.endsWith('/')) {
         docsDir += '/';
     }
-    return external_path_default().join(GITHUB_WORKSPACE, docsDir);
+    return path.join(GITHUB_WORKSPACE, PROJECT_DIR, docsDir);
 }
 // Returns ['path', 'to', 'doc']
 function getSlugFromPath(relPath) {
-    var slug = relPath.replace('.md', '').split('/');
-    var filename = slug[slug.length - 1];
-    // remove index and only keep the directory name
-    if (filename === 'index') {
-        slug.pop();
+    if (relPath === 'index.md') {
+        return [''];
     }
+    var slug = relPath.replace('.md', '').split('/');
     return slug;
+}
+function getPathFromSlug(slug) {
+    var baseDocsDir = getDocsDir();
+    var relPath = slug.join('/');
+    var fullPath = path.join(baseDocsDir, relPath);
+    if (relPath === '') {
+        fullPath += 'index.md';
+    }
+    else {
+        fullPath += '.md';
+    }
+    return fullPath;
 }
 function getTitleFromToken(str) {
     if (!str) {
@@ -385,22 +400,25 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 // Run the following command to build this reporter file:
 //   yarn run ncc build -s ./src/action/jestReporter.ts -o ./dist/jestReporter
 // Then, run the following command to run the built file:
-//   yarn jest ./docs/ --reporters="default" --reporters="./dist/jestReporter/index.js"
+//   yarn jest ./docploy/ --reporters="default" --reporters="./dist/jestReporter/index.js"
 var DocployReporter = /** @class */ (function () {
     function DocployReporter() {
     }
     DocployReporter.prototype.onRunComplete = function (_, results) {
         return __awaiter(this, void 0, void 0, function () {
-            var baseDocsDir, testResults, time, data, docployDir, writePath, e_1, e_2;
+            var baseProjectDir, testResults, time, data, docployDir, writePath, e_1, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        baseDocsDir = getDocsDir();
+                        baseProjectDir = getProjectDir();
                         testResults = {};
                         time = results.startTime;
                         results.testResults.forEach(function (result) {
                             var path = result.testFilePath;
-                            var relPath = path.slice(baseDocsDir.length);
+                            var relPath = path.slice(baseProjectDir.length);
+                            if (relPath.charAt(0) === '/') {
+                                relPath = relPath.slice(1);
+                            }
                             var hasFailure = result.testResults.some(function (itResult) {
                                 return itResult.status === 'failed';
                             });

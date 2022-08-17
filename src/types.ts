@@ -14,6 +14,7 @@ export type NavTreeType = {
   relPath: string;
   token: string;
   name: string;
+  type: 'file' | 'directory';
   children: NavTreeType[];
 };
 
