@@ -6,9 +6,10 @@ function getDocsUrl() {
   if (!CI) {
     return '';
   }
-  const shortSha = GITHUB_SHA?.substring(0, 7) || '';
-  const docsUrl = new URL(shortSha, BASE_URL).toString();
-  return docsUrl;
+  // const shortSha = GITHUB_SHA?.substring(0, 7) || '';
+  // const docsUrl = new URL(shortSha, BASE_URL).toString();
+  return BASE_URL;
+  // return docsUrl;
 }
 
 exports.getDocsUrl = getDocsUrl;
