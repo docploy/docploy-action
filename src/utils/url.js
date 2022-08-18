@@ -2,7 +2,7 @@
 // because the function is used in next.config.js which only
 // supports CommonJS modules.
 function getDocsUrl() {
-  const { BASE_URL, CI, GITHUB_SHA } = process.env;
+  const { BASE_URL = '', CI, GITHUB_SHA } = process.env;
   if (!CI) {
     return '';
   }
