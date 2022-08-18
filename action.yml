@@ -66,7 +66,6 @@ runs:
 
     - name: Upload
       uses: actions/upload-pages-artifact@v1
-      working-directory: ${{ github.action_path }}
       with:
         path: ${ACTION_PATH}/out
       env:
