@@ -27,6 +27,14 @@ branding:
 
 runs:
   using: 'composite'
+  environment:
+    name: github-pages
+    url: ${{ steps.deployment.outputs.page_url }}
+
+  permissions:
+    pages: write
+    id-token: write
+
   steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -55,19 +63,28 @@ runs:
         BASE_URL: ${{ inputs.baseUrl }}
         DOCS_DIR: ${{ inputs.docsDir }}
 
-    - name: Push built docs to GitHub Pages branch
-      run: ./scripts/pushPages.sh
-      working-directory: ${{ github.action_path }}
-      shell: bash
-      env:
-        EMAIL: ${{ inputs.email }}
-        USERNAME: ${{ inputs.username }}
-        PAGES_BRANCH: ${{ inputs.pagesBranch }}
+    - name: Upload
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: ./out
 
-    - name: Check pages deploy
-      run: node dist/checkPagesDeploy
-      working-directory: ${{ github.action_path }}
-      shell: bash
-      env:
-        BASE_URL: ${{ inputs.baseUrl }}
-        GITHUB_TOKEN: ${{ inputs.githubToken }}
+    - name: Deploy to GitHub Pages
+      id: 'deployment'
+      uses: actions/deploy-pages@v1
+
+    # - name: Push built docs to GitHub Pages branch
+    #   run: ./scripts/pushPages.sh
+    #   working-directory: ${{ github.action_path }}
+    #   shell: bash
+    #   env:
+    #     EMAIL: ${{ inputs.email }}
+    #     USERNAME: ${{ inputs.username }}
+    #     PAGES_BRANCH: ${{ inputs.pagesBranch }}
+
+    # - name: Check pages deploy
+    #   run: node dist/checkPagesDeploy
+    #   working-directory: ${{ github.action_path }}
+    #   shell: bash
+    #   env:
+    #     BASE_URL: ${{ inputs.baseUrl }}
+    #     GITHUB_TOKEN: ${{ inputs.githubToken }}
