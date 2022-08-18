@@ -55,15 +55,6 @@ runs:
         BASE_URL: ${{ inputs.baseUrl }}
         DOCS_DIR: ${{ inputs.docsDir }}
 
-    - name: Debug with commands
-      run: |
-        echo ${ACTION_PATH}
-        ls -la
-        ls -la ${ACTION_PATH}
-      shell: bash
-      env:
-        ACTION_PATH: ${{ github.action_path }}
-
     - name: Upload
       uses: actions/upload-pages-artifact@v1
       with:
