@@ -1,22 +1,15 @@
-import 'prismjs/themes/prism-okaidia.css';
-import 'prismjs';
-
-import Prism from 'react-prism';
+import Code from 'src/components/Code';
 
 type Props = {
-  children: React.ReactNode;
+  content: string;
   language: string;
 };
 
-function Fence({ children, language }: Props) {
+function Fence({ content, language }: Props) {
   return (
-    <Prism
-      key={language}
-      component="pre"
-      className={`language-${language} rounded-md`}
-    >
-      {children}
-    </Prism>
+    <div className="bg-slate-800 my-4 px-8 pb-8 pt-4 relative rounded-lg">
+      <Code content={content} language={language} />
+    </div>
   );
 }
 
