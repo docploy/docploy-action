@@ -1,5 +1,4 @@
 import 'prismjs/themes/prism-okaidia.css';
-import 'prismjs/components/prism-python';
 
 import {
   CheckCircleIcon,
@@ -8,12 +7,12 @@ import {
   QuestionMarkCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
+import Code from 'src/components/Code';
 import { TestStatus } from 'src/types';
 import Tippy from '@tippyjs/react';
 import { format } from 'date-fns';
-import prismjs from 'prismjs';
 
 type Snippet = {
   language: string;
@@ -82,23 +81,8 @@ function Snippet({ snippets }: Props) {
   const languages = snippets.map((snippet) => snippet.language);
 
   const [snippetIndex, setSnippetIndex] = useState(0);
-  const [currentCode, setCode] = useState('');
   const [hasCopied, setHasCopied] = useState(false);
 
-  useEffect(() => {
-    const currentSnippet = snippets[snippetIndex];
-    let code = '';
-    if (currentSnippet) {
-      const { content, language } = currentSnippet;
-      const lowerCaseLanguage = language.toLowerCase();
-      code = prismjs.highlight(
-        content,
-        prismjs.languages[lowerCaseLanguage],
-        lowerCaseLanguage
-      );
-    }
-    setCode(code);
-  }, [snippetIndex]);
   const buttonClass = 'cursor-pointer font-bold p-2 text-sm text-slate-200';
   const selectedButtonClass = buttonClass + ' bg-slate-600 rounded-md';
 
@@ -143,10 +127,10 @@ function Snippet({ snippets }: Props) {
           className="absolute cursor-pointer text-slate-500 h-6 w-6 top-4 right-4"
         />
       )}
-      <pre
-        className={`language-${snippets[snippetIndex].language} rounded-md !text-sm !bg-slate-800 !p-0`}
-        dangerouslySetInnerHTML={{ __html: currentCode }}
-      ></pre>
+      <Code
+        content={snippets[snippetIndex].content}
+        language={snippets[snippetIndex].language?.toLowerCase()}
+      />
       <SnippetStatus
         status={snippets[snippetIndex].status}
         runTime={snippets[snippetIndex].runTime}
