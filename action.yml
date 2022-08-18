@@ -57,7 +57,7 @@ runs:
 
     - name: Debug with commands
       run: |
-      echo ${ACTION_PATH}
+        echo ${ACTION_PATH}
         ls -la
         ls -la ${ACTION_PATH}
       shell: bash
