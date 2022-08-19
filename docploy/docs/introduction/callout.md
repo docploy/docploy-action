@@ -1,5 +1,6 @@
 ---
-Title: Callout Component
+title: Callout Component
+description: Call attention to important information
 ---
 
 # This is a callout component
