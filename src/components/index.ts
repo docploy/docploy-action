@@ -1,4 +1,5 @@
 import Blockquote from './Blockquote';
+import Callout from './Callout';
 import Fence from './Fence';
 import Heading from './Heading';
 import Link from './Link';
@@ -7,6 +8,7 @@ import Snippet from './Snippet';
 
 const components = {
   Blockquote,
+  Callout,
   Fence,
   Heading,
   Link,

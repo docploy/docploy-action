@@ -1,6 +1,7 @@
 import { Tag, nodes } from '@markdoc/markdoc';
 
 import type { Schema } from '@markdoc/markdoc';
+import { callout } from './Callout.markdoc';
 import { fence } from './Fence.markdoc';
 import { snippet } from './Snippet.markdoc';
 
@@ -43,6 +44,7 @@ const config = {
     paragraph,
   },
   tags: {
+    callout,
     snippet,
   },
 };
