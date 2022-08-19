@@ -30,6 +30,17 @@ const blockquote: Schema = {
   render: 'Blockquote',
 };
 
+const code: Schema = {
+  render: 'InlineCode',
+  attributes: {
+    content: { type: String, render: false, required: true },
+  },
+  transform(node, config) {
+    const attributes = node.transformAttributes(config);
+    return new Tag(this.render, attributes, [node.attributes.content]);
+  },
+};
+
 const link: Schema = {
   ...nodes.link,
   render: 'Link',
@@ -38,6 +49,7 @@ const link: Schema = {
 const config = {
   nodes: {
     blockquote,
+    code,
     fence,
     heading,
     link,

@@ -38,7 +38,8 @@ function Callout({ content, type }: Props) {
   return (
     <div
       className={
-        'border-2 flex items-center my-4 p-4 text-sm font-bold ' + classes
+        'border-2 flex items-center my-4 p-4 rounded-md text-sm font-bold ' +
+        classes
       }
     >
       <div className="mr-2">
