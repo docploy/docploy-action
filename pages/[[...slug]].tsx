@@ -24,6 +24,7 @@ import Head from 'next/head';
 
 type Props = {
   title: string;
+  description: string;
   content: string;
   navData: NavTreeType;
 };
@@ -260,11 +261,12 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const fullPath = getPathFromSlug(slug);
   const source = fs.readFileSync(fullPath, 'utf-8');
   const {
-    data: { title: matterTitle },
+    data: { title: matterTitle, description: matterDescription },
     content: matterContent,
   } = matter(source);
 
   const title = matterTitle || getTitleFromToken(slug[slug.length - 1]);
+  const description = matterDescription || '';
 
   const ast = Markdoc.parse(matterContent);
   const errors = Markdoc.validate(ast, config);
@@ -282,6 +284,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   return {
     props: {
       title,
+      description,
       content,
       navData,
     },
@@ -289,7 +292,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
 };
 
 const Home: NextPage<Props> = (props) => {
-  const { content, navData, title } = props;
+  const { content, navData, title, description } = props;
   const parsedContent = JSON.parse(content);
 
   return (
@@ -306,6 +309,11 @@ const Home: NextPage<Props> = (props) => {
         <div className="basis-0 grow p-16">
           <div className="max-w-3xl">
             <h1 className="font-bold mt-8 text-4xl">{title}</h1>
+            {!!description && (
+              <span className="text-slate-400 text-2xl italic">
+                {description}
+              </span>
+            )}
             {Markdoc.renderers.react(parsedContent, React, {
               components,
             })}
