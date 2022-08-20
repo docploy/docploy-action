@@ -15,7 +15,7 @@ function getTypeClasses(type: Type) {
     case 'note':
       return 'border-blue-200 bg-blue-100 text-blue-500';
     case 'warning':
-      return 'border-yellow-200 bg-yellow-100 text-yellow-600';
+      return 'border-yellow-300 bg-yellow-100 text-yellow-600';
     case 'caution':
       return 'border-red-200 bg-red-100 text-red-400';
   }
