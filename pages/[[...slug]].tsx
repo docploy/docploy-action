@@ -310,9 +310,7 @@ const Home: NextPage<Props> = (props) => {
           <div className="max-w-3xl">
             <h1 className="font-bold mt-8 text-4xl">{title}</h1>
             {!!description && (
-              <span className="text-slate-400 text-2xl italic">
-                {description}
-              </span>
+              <div className="my-2 text-slate-500 text-2xl">{description}</div>
             )}
             {Markdoc.renderers.react(parsedContent, React, {
               components,
