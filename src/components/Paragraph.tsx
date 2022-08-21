@@ -3,7 +3,7 @@ type Props = {
 };
 
 function Paragraph({ children }: Props) {
-  return <p className="leading-relaxed mb-8 mt-8 text-md">{children}</p>;
+  return <p className="leading-relaxed mb-8 text-md">{children}</p>;
 }
 
 export default Paragraph;
