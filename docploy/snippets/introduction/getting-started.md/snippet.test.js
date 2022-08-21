@@ -1,10 +1,10 @@
-describe('Getting Started', () => {
+describe('js-example', () => {
   it('should return 2', () => {
     // [start]
-    function snippet() {
+    function sum() {
       return 1 + 1;
     }
     // [end]
-    expect(snippet()).toBe(2);
+    expect(sum()).toEqual(2);
   });
 });
