@@ -4,6 +4,7 @@ import Fence from './Fence';
 import Heading from './Heading';
 import InlineCode from './InlineCode';
 import Link from './Link';
+import List from './List';
 import Paragraph from './Paragraph';
 import Snippet from './Snippet';
 
@@ -14,6 +15,7 @@ const components = {
   Heading,
   InlineCode,
   Link,
+  List,
   Paragraph,
   Snippet,
 };
