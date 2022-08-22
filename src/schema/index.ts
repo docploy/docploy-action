@@ -3,6 +3,7 @@ import { Tag, nodes } from '@markdoc/markdoc';
 import type { Schema } from '@markdoc/markdoc';
 import { callout } from './Callout.markdoc';
 import { fence } from './Fence.markdoc';
+import { list } from './List.markdoc';
 import { snippet } from './Snippet.markdoc';
 
 const heading: Schema = {
@@ -53,6 +54,7 @@ const config = {
     fence,
     heading,
     link,
+    list,
     paragraph,
   },
   tags: {
