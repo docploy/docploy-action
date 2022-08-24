@@ -1,5 +1,5 @@
-name: 'Publish docs to GitHub Pages'
-description: 'Action that publishes docs to the ghpages branch'
+name: 'Docploy'
+description: 'Tests, checks, and deploys your documentation to GitHub Pages'
 inputs:
   githubToken:
     description: GitHub token

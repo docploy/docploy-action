@@ -16,3 +16,7 @@ title: 🚀 Getting Started
 - list item 1
 - list item 2
 - list item 3
+
+## Test link
+
+[I am a link](https://www.google.com)
